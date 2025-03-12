@@ -1,30 +1,30 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, {createContext, useCallback, useContext, useState} from 'react';
 
 interface FavoritesContextType {
-  favorites: number[];
-  toggleFavorite: (id: number) => void;
-  isFavorite: (id: number) => boolean;
+  favorites: string[];
+  toggleFavorite: (id: string) => void;
+  isFavorite: (id: string) => boolean;
 }
 
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
 
-export function FavoritesProvider({ children }: { children: React.ReactNode }) {
-  const [favorites, setFavorites] = useState<number[]>([]);
+export function FavoritesProvider({children}: { children: React.ReactNode }) {
+  const [favorites, setFavorites] = useState<string[]>([]);
 
-  const toggleFavorite = useCallback((id: number) => {
-    setFavorites(prev => 
-      prev.includes(id) 
+  const toggleFavorite = useCallback((id: string) => {
+    setFavorites(prev =>
+      prev.includes(id)
         ? prev.filter(favId => favId !== id)
         : [...prev, id]
     );
   }, []);
 
-  const isFavorite = useCallback((id: number) => {
+  const isFavorite = useCallback((id: string) => {
     return favorites.includes(id);
   }, [favorites]);
 
   return (
-    <FavoritesContext.Provider value={{ favorites, toggleFavorite, isFavorite }}>
+    <FavoritesContext.Provider value={{favorites, toggleFavorite, isFavorite}}>
       {children}
     </FavoritesContext.Provider>
   );

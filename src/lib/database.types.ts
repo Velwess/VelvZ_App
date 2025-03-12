@@ -4,20 +4,25 @@ export interface Database {
 
 export interface Deal {
   id: string;
-  title: string;
-  description: string;
-  category_id: string;
-  discount_percentage: number;
-  original_price: number;
-  final_price: number;
-  image_url: string;
-  start_date: string;
-  end_date: string;
-  category: Category;
-  partner_id: string;
-  partner?: Partner;
   created_at: string;
   updated_at: string;
+  discount_percentage: number;
+  original_price: number;
+  conditions: string[];
+  final_price: number;
+  description: string;
+  start_date: string;
+  location?: string;
+  image_url: string;
+  deal_url: string;
+  end_date: string;
+  title: string;
+
+  category_id: string;
+  category?: Category;
+
+  partner_id: string;
+  partner?: Partner;
 }
 
 export interface Partner {

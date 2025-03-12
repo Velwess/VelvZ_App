@@ -1,14 +1,13 @@
-import React from 'react';
-import { Heart } from 'lucide-react';
-import { useFavorites } from '../contexts/FavoritesContext';
+import {Heart} from 'lucide-react';
+import {useFavorites} from '../contexts/FavoritesContext';
 
 interface FavoriteButtonProps {
-  id: number;
+  id: string;
   className?: string;
 }
 
-export function FavoriteButton({ id, className = '' }: FavoriteButtonProps) {
-  const { toggleFavorite, isFavorite } = useFavorites();
+export function FavoriteButton({id, className = ''}: FavoriteButtonProps) {
+  const {toggleFavorite, isFavorite} = useFavorites();
   const isFav = isFavorite(id);
 
   return (
