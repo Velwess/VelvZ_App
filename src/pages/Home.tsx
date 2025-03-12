@@ -34,7 +34,7 @@ function Home() {
     supabase.from('categories').select().in('id', categoryIds).maybeSingle()
       .then(({data}) => data as Category[])
       .then(categories => {
-        for (const deal of deals) deal.category = categories.find(({id}) => id === deal.id);
+        for (const deal of deals) deal.category = categories?.find(({id}) => id === deal.id);
       }, console.error);
   }, [deals.length]);
 
@@ -187,7 +187,7 @@ function Home() {
 
               <div className="text-center mt-12">
                 <Link
-                  to="/offres-disponibles"
+                  to="/inscription"
                   className="inline-flex items-center bg-gradient-to-r from-[#E6A4B4] to-[#DA70D6] text-white px-8 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
                 >
                   Découvrir tous les avantages
