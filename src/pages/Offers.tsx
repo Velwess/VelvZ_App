@@ -16,10 +16,9 @@ function Offers() {
       .then(({data}) => setCategory(data), console.error);
   }, [category_slug]);
   useEffect(() => {
-    if (category) supabase
-      .from('deals').select()
-      .eq('category_id', category.id)
-      .gte('end_date', new Date().toISOString())
+    let query = supabase.from('deals').select();
+    if (category) query = query.eq('category_id', category.id)
+    query.gte('end_date', new Date().toISOString())
       .order('end_date', {ascending: false})
       .then(({data}) => setDeals(data as Deal[]), console.error);
   }, [category?.id]);
