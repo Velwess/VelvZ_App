@@ -35,9 +35,9 @@ function Layout() {
                 {categories.map((cat) => (
                   <Link
                     key={cat.name}
-                    to={cat.path}
+                    to={`/offres?category=${cat.slug}`}
                     className={`flex items-center space-x-1 px-3 py-2 rounded-full transition-all duration-300 transform hover:scale-105
-                      ${location.pathname.startsWith('/offres') && location.search.includes(cat.path.split('=')[1])
+                      ${location.pathname.startsWith('/offres') && location.search.includes(cat.slug)
                       ? 'bg-[#F4C2C2] text-white shadow-md'
                       : 'text-gray-600 hover:bg-[#F4C2C2]/10'}`}
                   >
