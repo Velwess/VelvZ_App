@@ -1,93 +1,68 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Clock, Star, Heart, ChevronDown, Building2, Users, ShieldCheck, ArrowRight, Sparkles, Percent, Gift, Clock3, Leaf, HandHeart, Shield, Globe } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-
-const deals = [
-  {
-    id: 1,
-    title: "Séance Spa Luxe",
-    category: "Bien-être",
-    discount: "-50%",
-    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800",
-    endDate: "2024-04-01",
-    rating: 4.8
-  },
-  {
-    id: 2,
-    title: "Box Nutrition Bio",
-    category: "Nutrition",
-    discount: "-30%",
-    image: "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=800",
-    endDate: "2024-03-25",
-    rating: 4.5
-  },
-  {
-    id: 3,
-    title: "Cours de Yoga",
-    category: "Sport",
-    discount: "-40%",
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800",
-    endDate: "2024-03-30",
-    rating: 4.9
-  }
-];
-
-const reviews = [
-  {
-    id: 1,
-    name: "Sophie L.",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200",
-    rating: 5,
-    text: "J'adore Velvès ! Les offres sont vraiment intéressantes et j'ai pu découvrir plein de nouvelles marques.",
-    date: "Il y a 2 jours"
-  },
-  {
-    id: 2,
-    name: "Thomas M.",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200",
-    rating: 5,
-    text: "Une super plateforme qui m'a permis de faire de belles économies sur mes activités préférées.",
-    date: "Il y a 1 semaine"
-  },
-  {
-    id: 3,
-    name: "Emma R.",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200",
-    rating: 5,
-    text: "Les offres sont variées et de qualité. Je recommande vivement !",
-    date: "Il y a 2 semaines"
-  }
-];
+import {useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {
+  ArrowRight,
+  Building2,
+  Clock,
+  Clock3,
+  Gift,
+  Globe,
+  HandHeart,
+  Heart,
+  Leaf,
+  Percent,
+  Shield,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Users
+} from 'lucide-react';
+import {Category, Deal} from "../lib/database.types.ts";
+import {supabase} from "../lib/supabase.ts";
 
 function Home() {
   const navigate = useNavigate();
+  const [deals, setDeals] = useState<Deal[]>([]);
+
+  useEffect(() => {
+    supabase.from('deals').select().eq('flash', true).gte('end_date', new Date().toISOString())
+      .then(({data}) => setDeals(data as Deal[]), console.error);
+  }, []);
+  useEffect(() => {
+    if (0 === deals.length) return
+    const categoryIds = deals.map(({category_id}) => category_id).filter((_, i, __) => i === __.indexOf(_));
+    supabase.from('categories').select().in('id', categoryIds).maybeSingle()
+      .then(({data}) => data as Category[])
+      .then(categories => {
+        for (const deal of deals) deal.category = categories.find(({id}) => id === deal.id);
+      }, console.error);
+  }, [deals.length]);
 
   return (
     <>
       {/* Hero Section with Background Image */}
       <section className="relative overflow-hidden rounded-3xl mb-12">
         {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600')] 
+        <div
+          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600')]
           bg-cover bg-center"
-          style={{ backgroundPosition: '50% 35%' }}
+          style={{backgroundPosition: '50% 35%'}}
         />
-        
+
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F4C2C2]/90 to-[#C8A2C8]/90" />
-        
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F4C2C2]/90 to-[#C8A2C8]/90"/>
+
         {/* Content */}
         <div className="relative p-12">
           <div className="max-w-2xl">
             <h2 className="text-4xl font-bold text-white mb-4">Des offres exclusives pour les jeunes</h2>
             <p className="text-lg text-white/90 mb-8">Découvrez les meilleures réductions sur vos marques préférées</p>
             <Link
-              to="/offres-disponibles"
+              to="/offres"
               className="bg-white hover:bg-white/90 text-[#DA70D6] px-8 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:shadow-xl inline-flex items-center group"
             >
               Découvrir les offres
-              <ArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform"/>
             </Link>
           </div>
         </div>
@@ -97,39 +72,40 @@ function Home() {
       <section className="mb-16">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-bold text-gray-800 flex items-center">
-            <Clock className="mr-2 text-[#FFD700]" /> Offres Flash
+            <Clock className="mr-2 text-[#FFD700]"/> Offres Flash
           </h3>
-          <Link
-            to="/offres"
-            className="text-[#E6A4B4] hover:text-[#DA70D6] font-semibold flex items-center"
-          >
-            Voir tout <ChevronDown className="ml-1" size={20} />
-          </Link>
+          {/*<Link*/}
+          {/*  to="/offres"*/}
+          {/*  className="text-[#E6A4B4] hover:text-[#DA70D6] font-semibold flex items-center"*/}
+          {/*>*/}
+          {/*  Voir tout <ChevronDown className="ml-1" size={20}/>*/}
+          {/*</Link>*/}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {deals.map((deal) => (
-            <Link to={`/offre/${deal.id}`} key={deal.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+            <Link to={`/offre/${deal.id}`} key={deal.id}
+                  className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
               <div className="relative">
-                <img src={deal.image} alt={deal.title} className="w-full h-48 object-cover" />
+                <img src={deal.image_url} alt={deal.title} className="w-full h-48 object-cover"/>
                 <span className="absolute top-4 right-4 bg-[#DA70D6] text-white px-3 py-1 rounded-full font-semibold">
-                  {deal.discount}
+                  {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
                 </span>
               </div>
               <div className="p-6">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-[#E6A4B4]">{deal.category}</span>
+                  <span className="text-sm text-[#E6A4B4]">{deal.category?.name}</span>
                   <div className="flex items-center">
-                    <Star className="text-[#FFD700] mr-1" size={16} />
-                    <span className="text-sm text-gray-600">{deal.rating}</span>
+                    {[...Array(5)].map((_, i) => <Star className="text-[#FFD700] mr-1" size={16} key={i}/>)}
+                    {/*<span className="text-sm text-gray-600">{deal.rating}</span>*/}
                   </div>
                 </div>
                 <h4 className="text-xl font-semibold text-gray-800 mb-2">{deal.title}</h4>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">
-                    Expire le {new Date(deal.endDate).toLocaleDateString()}
+                    Expire le {new Date(deal.end_date).toLocaleDateString()}
                   </span>
                   <button className="text-[#E6A4B4] hover:text-[#DA70D6]">
-                    <Heart size={20} />
+                    <Heart size={20}/>
                   </button>
                 </div>
               </div>
@@ -142,22 +118,23 @@ function Home() {
       <section className="mb-16">
         <div className="relative overflow-hidden rounded-3xl">
           {/* Background Image Layer */}
-          <div 
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600')] 
+          <div
+            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600')]
             bg-cover bg-center"
             style={{
               backgroundPosition: '50% 30%'
             }}
           />
-          
+
           {/* Gradient Overlay - Further reduced transparency */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-white/50 to-white/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-white/50 to-white/40"/>
 
           {/* Content */}
           <div className="relative px-8 py-16 md:px-16">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
-                <span className="inline-block bg-[#F4C2C2]/20 text-[#E6A4B4] px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <span
+                  className="inline-block bg-[#F4C2C2]/20 text-[#E6A4B4] px-4 py-1 rounded-full text-sm font-medium mb-4">
                   Rejoignez l'aventure
                 </span>
                 <h3 className="text-3xl font-bold text-gray-800 mb-4">Pourquoi nous rejoindre ?</h3>
@@ -167,33 +144,41 @@ function Home() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div className="group bg-white/60 backdrop-blur-sm rounded-2xl p-8 text-center transform transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-xl">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#F4C2C2] to-[#E6A4B4] rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3 group-hover:rotate-6 transition-transform">
-                    <Percent size={32} className="text-white" />
+                <div
+                  className="group bg-white/60 backdrop-blur-sm rounded-2xl p-8 text-center transform transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-xl">
+                  <div
+                    className="w-16 h-16 bg-gradient-to-br from-[#F4C2C2] to-[#E6A4B4] rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3 group-hover:rotate-6 transition-transform">
+                    <Percent size={32} className="text-white"/>
                   </div>
                   <h4 className="font-semibold text-gray-800 mb-3 text-lg">Réductions Exclusives</h4>
                   <p className="text-gray-600">Jusqu'à -50% sur vos marques et activités préférées</p>
                 </div>
 
-                <div className="group bg-white/60 backdrop-blur-sm rounded-2xl p-8 text-center transform transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-xl">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#F4C2C2] to-[#E6A4B4] rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-3 group-hover:-rotate-6 transition-transform">
-                    <Gift size={32} className="text-white" />
+                <div
+                  className="group bg-white/60 backdrop-blur-sm rounded-2xl p-8 text-center transform transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-xl">
+                  <div
+                    className="w-16 h-16 bg-gradient-to-br from-[#F4C2C2] to-[#E6A4B4] rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-3 group-hover:-rotate-6 transition-transform">
+                    <Gift size={32} className="text-white"/>
                   </div>
                   <h4 className="font-semibold text-gray-800 mb-3 text-lg">Offres Personnalisées</h4>
                   <p className="text-gray-600">Des recommandations adaptées à vos centres d'intérêt</p>
                 </div>
 
-                <div className="group bg-white/60 backdrop-blur-sm rounded-2xl p-8 text-center transform transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-xl">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#F4C2C2] to-[#E6A4B4] rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3 group-hover:rotate-6 transition-transform">
-                    <Clock3 size={32} className="text-white" />
+                <div
+                  className="group bg-white/60 backdrop-blur-sm rounded-2xl p-8 text-center transform transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-xl">
+                  <div
+                    className="w-16 h-16 bg-gradient-to-br from-[#F4C2C2] to-[#E6A4B4] rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3 group-hover:rotate-6 transition-transform">
+                    <Clock3 size={32} className="text-white"/>
                   </div>
                   <h4 className="font-semibold text-gray-800 mb-3 text-lg">Accès Prioritaire</h4>
                   <p className="text-gray-600">Soyez les premiers à profiter des nouvelles offres</p>
                 </div>
 
-                <div className="group bg-white/60 backdrop-blur-sm rounded-2xl p-8 text-center transform transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-xl">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#F4C2C2] to-[#E6A4B4] rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-3 group-hover:-rotate-6 transition-transform">
-                    <Sparkles size={32} className="text-white" />
+                <div
+                  className="group bg-white/60 backdrop-blur-sm rounded-2xl p-8 text-center transform transition-all duration-300 hover:scale-105 hover:bg-white hover:shadow-xl">
+                  <div
+                    className="w-16 h-16 bg-gradient-to-br from-[#F4C2C2] to-[#E6A4B4] rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-3 group-hover:-rotate-6 transition-transform">
+                    <Sparkles size={32} className="text-white"/>
                   </div>
                   <h4 className="font-semibold text-gray-800 mb-3 text-lg">Expériences Uniques</h4>
                   <p className="text-gray-600">Découvrez des expériences exclusives chaque semaine</p>
@@ -206,7 +191,7 @@ function Home() {
                   className="inline-flex items-center bg-gradient-to-r from-[#E6A4B4] to-[#DA70D6] text-white px-8 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
                 >
                   Découvrir tous les avantages
-                  <ArrowRight className="ml-2" size={20} />
+                  <ArrowRight className="ml-2" size={20}/>
                 </Link>
               </div>
             </div>
@@ -225,48 +210,49 @@ function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-[#F4C2C2]/10 rounded-2xl p-8 flex items-start space-x-6">
             <div className="w-12 h-12 bg-[#E6A4B4] rounded-full flex items-center justify-center flex-shrink-0">
-              <HandHeart size={24} className="text-white" />
+              <HandHeart size={24} className="text-white"/>
             </div>
             <div>
               <h4 className="text-xl font-semibold text-gray-800 mb-3">Accessibilité pour tous</h4>
               <p className="text-gray-600">
-                Nous croyons que chaque jeune mérite d'accéder à des expériences enrichissantes. 
-                Notre mission est de rendre les activités culturelles, sportives et de bien-être accessibles au plus grand nombre.
+                Nous croyons que chaque jeune mérite d'accéder à des expériences enrichissantes.
+                Notre mission est de rendre les activités culturelles, sportives et de bien-être accessibles au plus
+                grand nombre.
               </p>
             </div>
           </div>
           <div className="bg-[#F4C2C2]/10 rounded-2xl p-8 flex items-start space-x-6">
             <div className="w-12 h-12 bg-[#E6A4B4] rounded-full flex items-center justify-center flex-shrink-0">
-              <Shield size={24} className="text-white" />
+              <Shield size={24} className="text-white"/>
             </div>
             <div>
               <h4 className="text-xl font-semibold text-gray-800 mb-3">Qualité garantie</h4>
               <p className="text-gray-600">
-                Nous sélectionnons rigoureusement nos partenaires pour vous garantir des offres de qualité. 
+                Nous sélectionnons rigoureusement nos partenaires pour vous garantir des offres de qualité.
                 Chaque expérience est évaluée et validée par notre équipe.
               </p>
             </div>
           </div>
           <div className="bg-[#F4C2C2]/10 rounded-2xl p-8 flex items-start space-x-6">
             <div className="w-12 h-12 bg-[#E6A4B4] rounded-full flex items-center justify-center flex-shrink-0">
-              <Leaf size={24} className="text-white" />
+              <Leaf size={24} className="text-white"/>
             </div>
             <div>
               <h4 className="text-xl font-semibold text-gray-800 mb-3">Engagement durable</h4>
               <p className="text-gray-600">
-                Nous privilégions les partenaires engagés dans une démarche responsable et encourageons 
+                Nous privilégions les partenaires engagés dans une démarche responsable et encourageons
                 les pratiques respectueuses de l'environnement.
               </p>
             </div>
           </div>
           <div className="bg-[#F4C2C2]/10 rounded-2xl p-8 flex items-start space-x-6">
             <div className="w-12 h-12 bg-[#E6A4B4] rounded-full flex items-center justify-center flex-shrink-0">
-              <Globe size={24} className="text-white" />
+              <Globe size={24} className="text-white"/>
             </div>
             <div>
               <h4 className="text-xl font-semibold text-gray-800 mb-3">Impact local</h4>
               <p className="text-gray-600">
-                Nous soutenons les commerces et activités locales pour dynamiser les territoires et 
+                Nous soutenons les commerces et activités locales pour dynamiser les territoires et
                 créer des opportunités au plus près de chez vous.
               </p>
             </div>
@@ -275,62 +261,62 @@ function Home() {
       </section>
 
       {/* Reviews Section */}
-      <section className="mb-16">
-        <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">Ce que disent nos utilisateurs</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {reviews.map((review) => (
-            <div key={review.id} className="bg-white rounded-xl p-6 shadow-sm">
-              <div className="flex items-center mb-4">
-                <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full object-cover mr-4" />
-                <div>
-                  <h4 className="font-semibold text-gray-800">{review.name}</h4>
-                  <div className="flex items-center">
-                    {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} size={16} className="text-[#FFD700] fill-[#FFD700]" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 mb-2">{review.text}</p>
-              <span className="text-sm text-gray-400">{review.date}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/*<section className="mb-16">*/}
+      {/*  <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">Ce que disent nos utilisateurs</h3>*/}
+      {/*  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">*/}
+      {/*    {reviews.map((review) => (*/}
+      {/*      <div key={review.id} className="bg-white rounded-xl p-6 shadow-sm">*/}
+      {/*        <div className="flex items-center mb-4">*/}
+      {/*          <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full object-cover mr-4"/>*/}
+      {/*          <div>*/}
+      {/*            <h4 className="font-semibold text-gray-800">{review.name}</h4>*/}
+      {/*            <div className="flex items-center">*/}
+      {/*              {[...Array(review.rating)].map((_, i) => (*/}
+      {/*                <Star key={i} size={16} className="text-[#FFD700] fill-[#FFD700]"/>*/}
+      {/*              ))}*/}
+      {/*            </div>*/}
+      {/*          </div>*/}
+      {/*        </div>*/}
+      {/*        <p className="text-gray-600 mb-2">{review.text}</p>*/}
+      {/*        <span className="text-sm text-gray-400">{review.date}</span>*/}
+      {/*      </div>*/}
+      {/*    ))}*/}
+      {/*  </div>*/}
+      {/*</section>*/}
 
       {/* Partner Section */}
       <section className="mb-16 bg-white rounded-3xl p-12">
         <div className="text-center mb-12">
           <h3 className="text-2xl font-bold text-gray-800 mb-4">Devenez partenaire</h3>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Rejoignez notre réseau de partenaires et touchez une audience jeune et dynamique. 
+            Rejoignez notre réseau de partenaires et touchez une audience jeune et dynamique.
             Développez votre activité tout en offrant des avantages exclusifs.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div className="text-center">
-            <Building2 size={48} className="text-[#E6A4B4] mx-auto mb-4" />
+            <Building2 size={48} className="text-[#E6A4B4] mx-auto mb-4"/>
             <h4 className="font-semibold text-gray-800 mb-2">Visibilité accrue</h4>
             <p className="text-gray-600">Touchez une nouvelle clientèle et augmentez votre visibilité</p>
           </div>
           <div className="text-center">
-            <Users size={48} className="text-[#E6A4B4] mx-auto mb-4" />
+            <Users size={48} className="text-[#E6A4B4] mx-auto mb-4"/>
             <h4 className="font-semibold text-gray-800 mb-2">Communauté engagée</h4>
             <p className="text-gray-600">Accédez à une communauté de jeunes actifs et dynamiques</p>
           </div>
           <div className="text-center">
-            <ShieldCheck size={48} className="text-[#E6A4B4] mx-auto mb-4" />
+            <ShieldCheck size={48} className="text-[#E6A4B4] mx-auto mb-4"/>
             <h4 className="font-semibold text-gray-800 mb-2">Gestion simplifiée</h4>
             <p className="text-gray-600">Gérez facilement vos offres via notre plateforme dédiée</p>
           </div>
         </div>
         <div className="text-center">
-          <button 
+          <button
             onClick={() => navigate('/partenaire')}
             className="bg-[#E6A4B4] hover:bg-[#DA70D6] text-white px-8 py-3 rounded-full font-semibold transition-colors inline-flex items-center"
           >
             Devenir partenaire
-            <ArrowRight size={20} className="ml-2" />
+            <ArrowRight size={20} className="ml-2"/>
           </button>
         </div>
       </section>
@@ -348,7 +334,7 @@ function Home() {
               placeholder="Votre adresse email"
               className="px-6 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#DA70D6] md:w-80"
             />
-            <button 
+            <button
               onClick={() => navigate('/inscription')}
               className="bg-[#DA70D6] hover:bg-[#DA70D6]/90 text-white px-8 py-3 rounded-full font-semibold transition-colors"
             >
