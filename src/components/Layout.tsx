@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import {Facebook, Heart, Instagram, Mail, Phone, Search, Sparkles, Twitter} from 'lucide-react';
 import {useFavorites} from '../contexts/FavoritesContext';
-import {Categories} from "../lib/database.types.ts";
+import {Category} from "../lib/database.types.ts";
 import {supabase} from "../lib/supabase.ts";
 
 function Layout() {
   const location = useLocation();
   const {favorites} = useFavorites();
-  const [categories, setCategories] = useState<Categories[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     supabase.from('categories')
       .select()
-      .then(({data}) => data as Categories[])
+      .then(({data}) => data as Category[])
       .then(data => data.sort(({name: a}, {name: b}) => a.localeCompare(b)))
       .then(data => setCategories(data));
   }, []);
