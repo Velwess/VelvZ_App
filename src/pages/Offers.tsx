@@ -5,54 +5,6 @@ import {FavoriteButton} from '../components/FavoriteButton';
 import {Category, Deal} from "../lib/database.types.ts";
 import {supabase} from "../lib/supabase.ts";
 
-// const allDeals = [
-//   {
-//     id: 1,
-//     title: "Séance Spa Luxe",
-//     category: "bien-etre",
-//     discount: "-50%",
-//     image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800",
-//     endDate: "2024-04-01",
-//     rating: 4.8
-//   },
-//   {
-//     id: 2,
-//     title: "Box Nutrition Bio",
-//     category: "nutrition",
-//     discount: "-30%",
-//     image: "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=800",
-//     endDate: "2024-03-25",
-//     rating: 4.5
-//   },
-//   {
-//     id: 3,
-//     title: "Cours de Yoga",
-//     category: "sport",
-//     discount: "-40%",
-//     image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800",
-//     endDate: "2024-03-30",
-//     rating: 4.9
-//   },
-//   {
-//     id: 4,
-//     title: "Soin du Visage Premium",
-//     category: "beaute",
-//     discount: "-35%",
-//     image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800",
-//     endDate: "2024-04-15",
-//     rating: 4.7
-//   },
-//   {
-//     id: 5,
-//     title: "Concert Jazz Club",
-//     category: "culture",
-//     discount: "-25%",
-//     image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800",
-//     endDate: "2024-03-28",
-//     rating: 4.6
-//   }
-// ];
-
 function Offers() {
   const [searchParams] = useSearchParams();
   const [deals, setDeals] = useState<Deal[]>([]);
@@ -64,13 +16,13 @@ function Offers() {
       .then(({data}) => setCategory(data), console.error);
   }, [category_slug]);
   useEffect(() => {
-    if (category) supabase.from('deals').select().eq('category_id', category.id).order('end_date', {ascending: false})
+    if (category) supabase
+      .from('deals').select()
+      .eq('category_id', category.id)
+      .gte('end_date', new Date().toISOString())
+      .order('end_date', {ascending: false})
       .then(({data}) => setDeals(data as Deal[]), console.error);
   }, [category?.id]);
-
-  // const filteredDeals = categoryFilter
-  //   ? allDeals.filter(deal => deal.category === categoryFilter)
-  //   : allDeals;
 
   return (
     <div className="space-y-8">
