@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+}
+
+.logo-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo-container::before {
+  content: '';
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid #E6A4B4;
+  border-radius: 50%;
+  left: -0.75rem;
+  opacity: 0.3;
+  transform: rotate(-10deg);
+}
+
+.logo-container::after {
+  content: '';
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #F4C2C2;
+  border-radius: 50%;
+  right: -0.5rem;
+  top: -0.5rem;
+  opacity: 0.2;
+}
+
+.logo-text {
+  background: linear-gradient(135deg, #E6A4B4 0%, #DA70D6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
