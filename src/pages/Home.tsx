@@ -44,9 +44,9 @@ function Home() {
       <section className="relative overflow-hidden rounded-3xl mb-12">
         {/* Background Image */}
         <div
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600')]
+          className="absolute inset-0 bg-[url('https://plus.unsplash.com/premium_photo-1683145839395-820a7db1f05b?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]
           bg-cover bg-center"
-          style={{backgroundPosition: '50% 35%'}}
+          style={{backgroundPosition: '30% center', backgroundSize: '120%' }}
         />
 
         {/* Gradient Overlay */}
@@ -119,10 +119,10 @@ function Home() {
         <div className="relative overflow-hidden rounded-3xl">
           {/* Background Image Layer */}
           <div
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600')]
+            className="absolute inset-0 bg-[url('https://plus.unsplash.com/premium_photo-1683145841064-bf22e6fce9eb?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]
             bg-cover bg-center"
             style={{
-              backgroundPosition: '50% 30%'
+              backgroundPosition: 'center', backgroundSize: '120%' 
             }}
           />
 
