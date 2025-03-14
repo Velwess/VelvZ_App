@@ -128,11 +128,12 @@ function Register() {
         password: form.password!,
         email: form.email!
       });
-      setForm({});
-      setShowSuccess(true);
-      await new Promise(r => setTimeout(r, 3_000));
-      navigate('/connexion?from=inscription');
-      if (error) console.error(error);
+      if (error) throw error;
+      setForm({})
+      setTimeout(() => {
+        setShowSuccess(true);
+        navigate('/connexion?from=inscription');
+      }, 3_000);
     } catch (error) {
       console.error(error);
     } finally {

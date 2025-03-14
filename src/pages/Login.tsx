@@ -1,41 +1,14 @@
-import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, {useState} from 'react';
+import {ArrowRight} from 'lucide-react';
+import {Link, useNavigate} from 'react-router-dom';
+import {supabase} from "../lib/supabase.ts";
 
 function Login() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const [error, setError] = useState<string>();
   const [showSuccess, setShowSuccess] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-    setError('');
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsSubmitting(true);
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubmitting(false);
-    setShowSuccess(true);
-    
-    // Reset form
-    setFormData({ email: '', password: '' });
-    
-    // Hide success message after 3 seconds
-    setTimeout(() => setShowSuccess(false), 3000);
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [form, setForm] = useState<{ email?: string, password?: string }>({});
 
   return (
     <div className="max-w-md mx-auto">
@@ -64,14 +37,12 @@ function Login() {
             Email
           </label>
           <input
-            type="email"
             id="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
+            type="email"
+            value={form.email ??= ''}
             placeholder="votre@email.com"
+            onChange={e => setForm({...form, email: e.target.value})}
+            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
           />
         </div>
 
@@ -85,27 +56,25 @@ function Login() {
             </a>
           </div>
           <input
-            type="password"
             id="password"
-            name="password"
-            required
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
+            type="password"
             placeholder="••••••••"
+            value={form.password ??= ''}
+            onChange={e => setForm({...form, password: e.target.value})}
+            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
           />
         </div>
 
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="remember"
-            className="h-4 w-4 text-[#E6A4B4] border-gray-300 rounded focus:ring-[#E6A4B4]"
-          />
-          <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
-            Se souvenir de moi
-          </label>
-        </div>
+        {/*<div className="flex items-center">*/}
+        {/*  <input*/}
+        {/*    type="checkbox"*/}
+        {/*    id="remember"*/}
+        {/*    className="h-4 w-4 text-[#E6A4B4] border-gray-300 rounded focus:ring-[#E6A4B4]"*/}
+        {/*  />*/}
+        {/*  <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">*/}
+        {/*    Se souvenir de moi*/}
+        {/*  </label>*/}
+        {/*</div>*/}
 
         <button
           type="submit"
@@ -117,7 +86,7 @@ function Login() {
           ) : (
             <>
               Se connecter
-              <ArrowRight className="ml-2" size={20} />
+              <ArrowRight className="ml-2" size={20}/>
             </>
           )}
         </button>
@@ -135,7 +104,7 @@ function Login() {
           type="button"
           className="w-full flex items-center justify-center px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
         >
-          <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 mr-2" />
+          <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 mr-2"/>
           Google
         </button>
 
@@ -148,6 +117,29 @@ function Login() {
       </form>
     </div>
   );
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      const {data, error} = await supabase.auth.signInWithPassword({
+        password: form.password!,
+        email: form.email!,
+      });
+      if (error) throw error;
+      localStorage.setItem('session', JSON.stringify(data.session));
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setTimeout(() => setShowSuccess(false), 3_000);
+      setTimeout(() => navigate(`/`), 3_000);
+      setIsSubmitting(true);
+      setShowSuccess(true);
+    } catch (error) {
+      if ('invalid_credentials' === (error as any)?.['code'])
+        setError('Email ou Mot de passe invalide/s.');
+      console.warn(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 }
 
 export default Login;
