@@ -24,10 +24,7 @@ function App() {
   useEffect(() => void (user?.id && (async () => {
     await Promise.allSettled(favouriteDealIds
       ?.map(deal_id => supabase.from('favorites').insert(({deal_id, user_id: user.id}))) ?? []);
-    await Promise.resolve(supabase
-      .from('favorites')
-      .select('deal_id')
-      .eq('user_id', user.id)
+    await Promise.resolve(supabase.from('favorites').select('deal_id').eq('user_id', user.id)
       .then(({data}) => setFavouriteDealIds?.(data?.map(_ => _.deal_id) ?? [].sort()), console.error));
   })()), []);
   useEffect(() =>
