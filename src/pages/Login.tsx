@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {ArrowRight} from 'lucide-react';
 import {Link, useNavigate} from 'react-router-dom';
 import {supabase} from "../lib/supabase.ts";
-import {SessionContext, UserContext} from "../domain/context.ts";
+import {FavouriteDealIdsContext, SessionContext, UserContext} from "../domain/context.ts";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ function Login() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState<{ email?: string, password?: string }>({});
+  const {favouriteDealIds, $set: setFavouriteDealIds} = useContext(FavouriteDealIdsContext);
 
   return (
     <div className="max-w-md mx-auto">
@@ -129,6 +130,17 @@ function Login() {
         email: form.email!,
       });
       if (error) throw error;
+      if (data?.user?.id) {
+        await Promise.allSettled(favouriteDealIds
+          ?.map(deal_id => supabase.from('favorites')
+            .insert(({deal_id, user_id: data.user.id}))) ?? [])
+          .then(() => void 0, console.error);
+        await supabase
+          .from('favorites')
+          .select('deal_id')
+          .eq('user_id', data.user.id)
+          .then(({data}) => setFavouriteDealIds?.(data?.map(_ => _.deal_id) ?? []), console.error);
+      }
       setTimeout(() => navigate(`/`), 3_000);
       sessionContext.$set?.(data.session);
       userContext.$set?.(data.user);

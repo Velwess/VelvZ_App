@@ -1,7 +1,15 @@
 export interface Database {
-  categories: Category
+  categories: Category;
+  favorite: Favourite;
+  deal: Deal;
 }
 
+export interface Favourite {
+  created_at: string;
+  user_id: string;
+  deal_id: string;
+  id: string;
+}
 export interface Deal {
   id: string;
   created_at: string;
