@@ -14,25 +14,25 @@ export function FavoriteButton({id, className = ''}: FavoriteButtonProps) {
 
   return (
     <button
+      className={`p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300 ${className}`}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        favouriteDealIds?.includes(id)
-          ? (async () => {
-            if (user?.id) {
-              try {
-                await supabase.from('favorites').delete().match({deal_id: id, user_id: user.id});
-                setFavouriteDealIds?.(favouriteDealIds?.filter(_ => _ !== id) ?? []);
-              } catch (error) {
-                console.error(error);
-              }
+        (async () => {
+          try {
+            if (favouriteDealIds?.includes(id)) {
+              if (user?.id) await supabase.from('favorites').delete().match({deal_id: id, user_id: user.id});
+              setFavouriteDealIds?.(favouriteDealIds?.filter(_ => _ !== id) ?? []);
+            } else {
+              if (user?.id) await supabase.from('favorites').upsert({deal_id: id, user_id: user.id});
+              setFavouriteDealIds?.([...favouriteDealIds ?? [], id]);
             }
-          })()
-          : setFavouriteDealIds?.([...favouriteDealIds ?? [], id]);
+          } catch (error) {
+            console.error(error);
+          }
+        })();
       }}
-      className={`p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300 ${className}`}
-      aria-label={favouriteDealIds?.includes(id) ? "Retirer des favoris" : "Ajouter aux favoris"}
-    >
+      aria-label={favouriteDealIds?.includes(id) ? "Retirer des favoris" : "Ajouter aux favoris"}>
       <Heart
         size={24}
         className={`${favouriteDealIds?.includes(id) ? 'fill-[#E6A4B4]' : ''} text-[#E6A4B4]`}
