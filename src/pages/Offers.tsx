@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
-import {Filter, Star} from 'lucide-react';
-import {FavoriteButton} from '../components/FavoriteButton';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+import {Filter} from 'lucide-react';
 import {Category, Deal} from "../lib/database.types.ts";
 import {supabase} from "../lib/supabase.ts";
+import {DealComponent} from "../components/DealComponent.tsx";
 
 interface Sort {
   field: string;
@@ -57,35 +57,7 @@ function Offers() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {deals?.map((deal) => (
-          <Link
-            to={`/offre/${deal.id}`}
-            key={deal.id}
-            className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-          >
-            <div className="relative">
-              <img src={deal.image_url} alt={deal.title} className="w-full h-48 object-cover"/>
-              <span className="absolute top-4 right-4 bg-[#DA70D6] text-white px-3 py-1 rounded-full font-semibold">
-                {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
-              </span>
-            </div>
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-[#E6A4B4] capitalize">{deal.category?.name}</span>
-                <div className="flex items-center">
-                  <Star className="text-[#FFD700] mr-1" size={16}/>
-                </div>
-              </div>
-              <h4 className="text-xl font-semibold text-gray-800 mb-2">{deal.title}</h4>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">
-                  Expire le {new Date(deal.end_date).toLocaleDateString()}
-                </span>
-                <FavoriteButton id={deal.id}/>
-              </div>
-            </div>
-          </Link>
-        ))}
+        {deals?.map((deal) => <DealComponent deal={deal} key={deal.id}/>)}
       </div>
     </div>
   );
