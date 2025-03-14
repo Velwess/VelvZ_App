@@ -134,9 +134,22 @@ function Login() {
       userContext.$set?.(data.user);
       setIsSubmitting(true);
       setShowSuccess(true);
+      setError('');
     } catch (error) {
+      switch ((error as any)?.['code']) {
+        case 'invalid_credentials':
+          setError('E-mail ou Mot de passe invalide/s.');
+          break;
+        case 'email_not_confirmed':
+          setError('Address e-mail non-confirmee (verifiez votre messagerie).');
+          break;
+        default:
+          setError('C\'est etrange! Verifiez voyre connexion ou contactez-nous!');
+      }
       if ('invalid_credentials' === (error as any)?.['code'])
-        setError('Email ou Mot de passe invalide/s.');
+
+        if ('invalid_credentials' === (error as any)?.['code'])
+          setError('Email ou Mot de passe invalide/s.');
       console.warn(error);
     } finally {
       setIsSubmitting(false);

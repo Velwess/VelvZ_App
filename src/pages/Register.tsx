@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [showSuccess, /*setShowSuccess*/] = useState(false);
   const [passwordError/*, setPasswordError*/] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState<{ name?: string, email?: string, password?: string, confirmPassword?: string, }>({});
@@ -129,11 +129,7 @@ function Register() {
         email: form.email!
       });
       if (error) throw error;
-      setForm({})
-      setTimeout(() => {
-        setShowSuccess(true);
-        navigate('/connexion?from=inscription');
-      }, 3_000);
+      navigate('/connexion?from=inscription');
     } catch (error) {
       console.error(error);
     } finally {
