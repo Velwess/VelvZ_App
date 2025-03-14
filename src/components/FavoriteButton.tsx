@@ -1,6 +1,7 @@
 import {Heart} from 'lucide-react';
 import {useContext} from "react";
-import {FavouriteDealIdsContext} from "../domain/context.ts";
+import {FavouriteDealIdsContext, UserContext} from "../domain/context.ts";
+import {supabase} from "../lib/supabase.ts";
 
 interface FavoriteButtonProps {
   id: string;
@@ -8,6 +9,7 @@ interface FavoriteButtonProps {
 }
 
 export function FavoriteButton({id, className = ''}: FavoriteButtonProps) {
+  const {user} = useContext(UserContext);
   const {favouriteDealIds, $set: setFavouriteDealIds} = useContext(FavouriteDealIdsContext);
 
   return (
@@ -15,9 +17,18 @@ export function FavoriteButton({id, className = ''}: FavoriteButtonProps) {
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        setFavouriteDealIds?.(favouriteDealIds?.includes(id)
-          ? favouriteDealIds?.filter(_ => id !== _)
-          : [...favouriteDealIds ?? [], id]);
+        favouriteDealIds?.includes(id)
+          ? (async () => {
+            if (user?.id) {
+              try {
+                await supabase.from('favorites').delete().match({deal_id: id, user_id: user.id});
+                setFavouriteDealIds?.(favouriteDealIds?.filter(_ => _ !== id) ?? []);
+              } catch (error) {
+                console.error(error);
+              }
+            }
+          })()
+          : setFavouriteDealIds?.([...favouriteDealIds ?? [], id]);
       }}
       className={`p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300 ${className}`}
       aria-label={favouriteDealIds?.includes(id) ? "Retirer des favoris" : "Ajouter aux favoris"}
