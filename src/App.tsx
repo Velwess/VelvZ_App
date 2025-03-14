@@ -20,8 +20,12 @@ function App() {
   const [favouriteDealIds, setFavouriteDealIds] = useState<string[] | null | undefined>(
     JSON.parse(localStorage.getItem('favouriteDealIds') ?? 'null') as string[]);
 
-  useEffect(() => localStorage.setItem('user', JSON.stringify(user ?? null)), [user]);
-  useEffect(() => localStorage.setItem('session', JSON.stringify(session ?? null)), [session]);
+  useEffect(() =>
+    localStorage.setItem('user', JSON.stringify(user ?? null)), [user]);
+  useEffect(() =>
+    localStorage.setItem('session', JSON.stringify(session ?? null)), [session]);
+  useEffect(() =>
+    localStorage.setItem('favouriteDealIds', JSON.stringify(favouriteDealIds ?? null)), [favouriteDealIds]);
 
   return <UserContext.Provider value={{user, $set: setUser}}>
     <SessionContext.Provider value={{session, $set: setSession}}>

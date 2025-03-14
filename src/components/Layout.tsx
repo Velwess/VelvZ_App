@@ -8,7 +8,6 @@ import {FavouriteDealIdsContext, SessionContext, UserContext} from "../domain/co
 function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
-  // const {favorites} = useFavorites();
   const userContext = useContext(UserContext);
   const sessionContext = useContext(SessionContext);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -65,11 +64,10 @@ function Layout() {
                   <Link to="/favoris"
                         className="relative p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300">
                     <Heart size={24} className="text-[#E6A4B4]"/>
-                    {favouriteDealIds?.length && (
-                      <span
-                        className="absolute -top-1 -right-1 bg-[#DA70D6] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                            {favouriteDealIds.length}
-                          </span>)}
+                    <span
+                      className="absolute -top-1 -right-1 bg-[#DA70D6] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                      {favouriteDealIds?.length ?? 0}
+                    </span>
                   </Link>
                   <span className="text-gray-300">|</span>
                   {userContext?.user
@@ -80,8 +78,8 @@ function Layout() {
                                 navigate('/');
                               })}
                               className="relative p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300">
-                        <Power size={24} className="text-[#E6A4B4]"/>
-                      </button>
+                      <Power size={24} className="text-[#E6A4B4]"/>
+                    </button>
                     : <>
                       <Link to="/inscription"
                             className="px-4 py-2 text-[#E6A4B4] hover:text-[#DA70D6] font-medium transition-colors">
