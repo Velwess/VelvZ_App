@@ -10,12 +10,6 @@ function Favorites() {
   const {favouriteDealIds} = useContext(FavouriteDealIdsContext);
 
   useEffect(() => {
-    console.log({favouriteDeals: deals.map(({id}) => id)})
-  }, [deals]);
-  useEffect(() => {
-    console.log({favouriteDealIds: (favouriteDealIds ?? [] as any[]).map(({id}) => id)})
-  }, [favouriteDealIds]);
-  useEffect(() => {
     if (!user?.id) return;
     supabase
       .from('favorites')
@@ -27,6 +21,7 @@ function Favorites() {
 
   if (!favouriteDealIds?.length) return <div className="text-center py-16">
     <h2 className="text-3xl font-bold text-gray-800 mb-4">Mes Favoris</h2>
+
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-sm p-8">
       <p className="text-gray-600 mb-4">Vous n'avez pas encore de favoris.</p>
       <Link
