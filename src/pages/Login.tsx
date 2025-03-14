@@ -131,14 +131,10 @@ function Login() {
       });
       if (error) throw error;
       if (data?.user?.id) {
-        await Promise.allSettled(favouriteDealIds
-          ?.map(deal_id => supabase.from('favorites')
-            .insert(({deal_id, user_id: data.user.id}))) ?? [])
-          .then(() => void 0, () => void 0);
-        await supabase
-          .from('favorites')
-          .select('deal_id')
-          .eq('user_id', data.user.id)
+        await supabase.from('favorites')
+          .upsert(favouriteDealIds?.map(_ => ({deal_id: _, user_id: data.user.id})) ?? []);
+        await supabase.from('favorites')
+          .select('deal_id').eq('user_id', data.user.id)
           .then(({data}) => setFavouriteDealIds?.(data?.map(_ => _.deal_id) ?? []), console.error);
       }
       setTimeout(() => navigate(`/`), 3_000);
