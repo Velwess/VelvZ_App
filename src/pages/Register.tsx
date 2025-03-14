@@ -1,56 +1,13 @@
-import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, {useState} from 'react';
+import {ArrowRight} from 'lucide-react';
 
 function Register() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [passwordError, setPasswordError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({name: '', email: '', password: '', confirmPassword: ''});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-    
-    // Clear password error when either password field changes
-    if (e.target.name === 'password' || e.target.name === 'confirmPassword') {
-      setPasswordError('');
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Check if passwords match
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordError('Les mots de passe ne correspondent pas');
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubmitting(false);
-    setShowSuccess(true);
-    
-    // Reset form
-    setFormData({ name: '', email: '', password: '', confirmPassword: '' });
-    setPasswordError('');
-    
-    // Hide success message after 3 seconds
-    setTimeout(() => setShowSuccess(false), 3000);
-  };
-
-  return (
-    <div className="max-w-md mx-auto">
+  return <div className="max-w-md mx-auto">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Créer un compte</h1>
         <p className="text-gray-600">
@@ -146,7 +103,7 @@ function Register() {
           ) : (
             <>
               Créer mon compte
-              <ArrowRight className="ml-2" size={20} />
+              <ArrowRight className="ml-2" size={20}/>
             </>
           )}
         </button>
@@ -164,12 +121,48 @@ function Register() {
           type="button"
           className="w-full flex items-center justify-center px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
         >
-          <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 mr-2" />
+          <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 mr-2"/>
           Google
         </button>
       </form>
-    </div>
-  );
+    </div>;
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+
+    // Clear password error when either password field changes
+    if (e.target.name === 'password' || e.target.name === 'confirmPassword') {
+      setPasswordError('');
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    // Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordError('Les mots de passe ne correspondent pas');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    setIsSubmitting(false);
+    setShowSuccess(true);
+
+    // Reset form
+    setFormData({name: '', email: '', password: '', confirmPassword: ''});
+    setPasswordError('');
+
+    // Hide success message after 3 seconds
+    setTimeout(() => setShowSuccess(false), 3000);
+  }
 }
 
 export default Register;
