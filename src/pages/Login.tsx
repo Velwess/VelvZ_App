@@ -134,7 +134,7 @@ function Login() {
         await Promise.allSettled(favouriteDealIds
           ?.map(deal_id => supabase.from('favorites')
             .insert(({deal_id, user_id: data.user.id}))) ?? [])
-          .then(() => void 0, console.error);
+          .then(() => void 0, () => void 0);
         await supabase
           .from('favorites')
           .select('deal_id')

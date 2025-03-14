@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import {FavouriteDealIdsContext, SessionContext, UserContext} from "./domain/context.ts";
 import {useEffect, useState} from "react";
 import {Session, User} from "@supabase/supabase-js";
+import {supabase} from "./lib/supabase.ts";
 
 function App() {
   const [user, setUser] = useState<User | null | undefined>(
@@ -18,14 +19,23 @@ function App() {
   const [session, setSession] = useState<Session | null | undefined>(
     JSON.parse(localStorage.getItem('session') ?? 'null') as Session);
   const [favouriteDealIds, setFavouriteDealIds] = useState<string[] | null | undefined>(
-    JSON.parse(localStorage.getItem('favouriteDealIds') ?? 'null') as string[]);
+    JSON.parse(localStorage.getItem('favouriteDealIds') ?? 'null')?.sort() as string[]);
 
+  useEffect(() => void (user?.id && (async () => {
+    await Promise.allSettled(favouriteDealIds
+      ?.map(deal_id => supabase.from('favorites').insert(({deal_id, user_id: user.id}))) ?? []);
+    await Promise.resolve(supabase
+      .from('favorites')
+      .select('deal_id')
+      .eq('user_id', user.id)
+      .then(({data}) => setFavouriteDealIds?.(data?.map(_ => _.deal_id) ?? [].sort()), console.error));
+  })()), []);
   useEffect(() =>
     localStorage.setItem('user', JSON.stringify(user ?? null)), [user]);
   useEffect(() =>
     localStorage.setItem('session', JSON.stringify(session ?? null)), [session]);
   useEffect(() =>
-    localStorage.setItem('favouriteDealIds', JSON.stringify(favouriteDealIds ?? null)), [favouriteDealIds]);
+    localStorage.setItem('favouriteDealIds', JSON.stringify(favouriteDealIds?.sort() ?? null)), [favouriteDealIds]);
 
   return <UserContext.Provider value={{user, $set: setUser}}>
     <SessionContext.Provider value={{session, $set: setSession}}>
