@@ -41,14 +41,9 @@ function Offers() {
         <select
           className="border border-gray-200 rounded-full px-4 py-2 text-gray-600 focus:outline-none focus:border-[#E6A4B4]"
           onChange={(e) => navigate(['/offres', search(e.target.value)].filter(Boolean).join('?'))}
-          defaultValue="Trier">
+          value={(SORTS.find(_ => _.field === sortField) ?? SORTS[0]).label}>
           {SORTS.map(({label}) =>
-            <option
-              selected={(SORTS.find(_ => _.field === sortField) ?? SORTS[0]).label === label}
-              value={label}
-              key={label}>
-              {label}
-            </option>)}
+            <option value={label} key={label}>{label}</option>)}
         </select>
       </div>
     </div>
