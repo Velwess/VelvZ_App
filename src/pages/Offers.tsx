@@ -38,8 +38,10 @@ function Offers() {
       <h2 className="text-3xl font-bold text-gray-800">Toutes les offres</h2>
       <div className="flex items-center space-x-4">
         <Filter className="text-[#E6A4B4]" size={20}/>
-        <select onChange={(e) => navigate(['/offres', search(e.target.value)].filter(Boolean).join('?'))}
-                className="border border-gray-200 rounded-full px-4 py-2 text-gray-600 focus:outline-none focus:border-[#E6A4B4]">
+        <select
+          className="border border-gray-200 rounded-full px-4 py-2 text-gray-600 focus:outline-none focus:border-[#E6A4B4]"
+          onChange={(e) => navigate(['/offres', search(e.target.value)].filter(Boolean).join('?'))}
+          defaultValue="Trier">
           {SORTS.map(({label}) =>
             <option
               selected={(SORTS.find(_ => _.field === sortField) ?? SORTS[0]).label === label}
