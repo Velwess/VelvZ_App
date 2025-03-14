@@ -1,18 +1,18 @@
 import {useContext, useEffect, useState} from 'react';
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
 import {Facebook, Heart, Instagram, Mail, Phone, Power, Search, Sparkles, Twitter} from 'lucide-react';
-import {useFavorites} from '../contexts/FavoritesContext';
 import {Category} from "../lib/database.types.ts";
 import {supabase} from "../lib/supabase.ts";
-import {SessionContext, UserContext} from "../domain/context.ts";
+import {FavouriteDealIdsContext, SessionContext, UserContext} from "../domain/context.ts";
 
 function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const {favorites} = useFavorites();
+  // const {favorites} = useFavorites();
   const userContext = useContext(UserContext);
   const sessionContext = useContext(SessionContext);
   const [categories, setCategories] = useState<Category[]>([]);
+  const {favouriteDealIds} = useContext(FavouriteDealIdsContext);
 
   useEffect(() => {
     supabase.from('categories')
@@ -62,18 +62,18 @@ function Layout() {
               </div>
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
+                  <Link to="/favoris"
+                        className="relative p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300">
+                    <Heart size={24} className="text-[#E6A4B4]"/>
+                    {favouriteDealIds?.length && (
+                      <span
+                        className="absolute -top-1 -right-1 bg-[#DA70D6] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                            {favouriteDealIds.length}
+                          </span>)}
+                  </Link>
+                  <span className="text-gray-300">|</span>
                   {userContext?.user
-                    ? <>
-                      <Link to="/favoris"
-                            className="relative p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300">
-                        <Heart size={24} className="text-[#E6A4B4]"/>
-                        {favorites.length > 0 && (
-                          <span
-                            className="absolute -top-1 -right-1 bg-[#DA70D6] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">{favorites.length}</span>
-                        )}
-                      </Link>
-                      <span className="text-gray-300">|</span>
-                      <button type="button"
+                    ? <button type="button"
                               onClick={() => supabase.auth.signOut().then(() => {
                                 sessionContext.$set?.(null);
                                 userContext.$set?.(null);
@@ -82,7 +82,6 @@ function Layout() {
                               className="relative p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300">
                         <Power size={24} className="text-[#E6A4B4]"/>
                       </button>
-                    </>
                     : <>
                       <Link to="/inscription"
                             className="px-4 py-2 text-[#E6A4B4] hover:text-[#DA70D6] font-medium transition-colors">
