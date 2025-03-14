@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {ArrowRight} from 'lucide-react';
 import {Link, useNavigate} from 'react-router-dom';
 import {supabase} from "../lib/supabase.ts";
+import {SessionContext, UserContext} from "../domain/context.ts";
 
 function Login() {
   const navigate = useNavigate();
+  const userContext = useContext(UserContext);
   const [error, setError] = useState<string>();
+  const sessionContext = useContext(SessionContext);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState<{ email?: string, password?: string }>({});
@@ -126,10 +129,9 @@ function Login() {
         email: form.email!,
       });
       if (error) throw error;
-      localStorage.setItem('session', JSON.stringify(data.session));
-      localStorage.setItem('user', JSON.stringify(data.user));
-      setTimeout(() => setShowSuccess(false), 3_000);
       setTimeout(() => navigate(`/`), 3_000);
+      sessionContext.$set?.(data.session);
+      userContext.$set?.(data.user);
       setIsSubmitting(true);
       setShowSuccess(true);
     } catch (error) {
