@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import {Session, User} from "@supabase/supabase-js";
 import {supabase} from "./lib/supabase.ts";
 import {Favourite} from "./lib/database.types.ts";
+import Mission from "./pages/Mission.tsx";
 
 function App() {
   const [pageSize, setPageSize] = useState(20);
@@ -48,6 +49,7 @@ function App() {
                 <Route path="offres" element={<Offers/>}/>
                 <Route path="offre/:id" element={<OfferDetail/>}/>
                 <Route path="vision" element={<Vision/>}/>
+                <Route path="mission" element={<Mission/>}/>
                 <Route path="favoris" element={<Favorites/>}/>
                 <Route path="inscription" element={<Register/>}/>
                 <Route path="connexion" element={<Login/>}/>

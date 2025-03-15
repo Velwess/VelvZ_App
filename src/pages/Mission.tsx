@@ -1,7 +1,7 @@
-function Vision() {
+function Mission() {
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold text-gray-800 mb-8">Notre Vision</h1>
+      <h1 className="text-4xl font-bold text-gray-800 mb-8">Notre Mission</h1>
 
       <div className="bg-white rounded-xl shadow-lg p-8 space-y-6">
         <p className="text-lg leading-relaxed text-gray-700">
@@ -27,4 +27,4 @@ function Vision() {
   );
 }
 
-export default Vision;
+export default Mission;
