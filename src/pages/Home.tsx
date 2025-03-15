@@ -12,7 +12,7 @@ import {
   Percent,
   Shield,
   ShieldCheck,
-  Sparkles,
+  Sparkles, Star,
   Users
 } from 'lucide-react';
 import {Deal} from "../lib/database.types.ts";
@@ -257,6 +257,34 @@ function Home() {
       {/*    ))}*/}
       {/*  </div>*/}
       {/*</section>*/}
+
+      {/* Review section */}
+      <section className="mb-16">
+        <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">Ce que disent nos utilisateurs</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {id: 0, name: 'Sophie L.', date: 'Il y a 2 jours', rating: 5, text: "J'adore Velvès ! Les offres sont vraiment intéressantes et j'ai pu découvrir plein de nouvelles marques.", avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200'},
+            {id: 0, name: 'Thomas M.', date: 'Il y a 1 semaine', rating: 3, text: "Une super plateforme qui m'a permis de faire de belles économies sur mes activités préférées.", avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200'},
+            {id: 0, name: 'Emma R.', date: 'Il y a 2 semaines', rating: 4, text: "Les offres sont variées et de qualité. Je recommande vivement !", avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200'},
+          ].map((review) => (
+            <div key={review.id} className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="flex items-center mb-4">
+                <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full object-cover mr-4" />
+                <div>
+                  <h4 className="font-semibold text-gray-800">{review.name}</h4>
+                  <div className="flex items-center">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} size={16} className="text-[#FFD700] fill-[#FFD700]" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-600 mb-2">{review.text}</p>
+              <span className="text-sm text-gray-400">{review.date}</span>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Partner Section */}
       <section className="mb-16 bg-white rounded-3xl p-12">
