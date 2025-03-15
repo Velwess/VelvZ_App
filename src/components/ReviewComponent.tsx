@@ -4,7 +4,7 @@ import {Star} from "lucide-react";
 import {UserContext} from "../domain/context.ts";
 import {supabase} from "../lib/supabase.ts";
 
-export function ReviewComponent({dealId}: { dealId: string }) {
+export function ReviewComponent({dealId, onUpdate}: { dealId: string, onUpdate?: () => void }) {
   const {user} = useContext(UserContext);
   const [pending, setPending] = useState(false);
   const [review, setReview] = useState<Review | null>();
@@ -37,6 +37,7 @@ export function ReviewComponent({dealId}: { dealId: string }) {
                 .eq('id', form.id!);
             else await supabase.from('reviews').insert({...form, deal_id: dealId, user_id: user.id});
             setPending(false);
+            onUpdate?.();
           }
         })();
       } : () => setVisibleForm(true)}

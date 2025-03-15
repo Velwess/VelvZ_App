@@ -15,9 +15,8 @@ export interface Favourite {
   created_at: string;
   user_id: string;
   deal_id: string;
-  deals?: Deal[];
-  user?: User;
-  deal?: Deal;
+  users?: User;
+  deals?: Deal;
   id: string;
 }
 
@@ -28,8 +27,8 @@ export interface Review {
   user_id: string;
   deal_id: string;
   rating: number;
-  user?: User;
-  deal?: Deal;
+  users?: User;
+  deals?: Deal;
   id: string;
 }
 
@@ -50,9 +49,9 @@ export interface Deal {
   deal_url: string;
   end_date: string;
   title: string;
-  category?: Category;
+  categories?: Category;
+  partners?: Partner;
   reviews?: Review[];
-  partner?: Partner;
 }
 
 export interface Partner {

@@ -11,18 +11,7 @@ function OfferDetail() {
   const {id} = useParams();
   const [deal, setDeal] = useState<Deal>();
 
-  useEffect(() => {
-    supabase.from('deals').select('*, reviews(id, rating)').eq('id', id!).maybeSingle()
-      .then(({data}) => setDeal(data as any), err => {
-        console.error(err);
-        setDeal(void 0);
-      })
-  }, [id]);
-
-  useEffect(() => {
-    if (deal?.category_id) supabase.from('categories').select().eq('id', deal.category_id).maybeSingle()
-      .then(({data}) => setDeal({...deal ?? {}, category: data as any}), console.error);
-  }, [deal?.category_id]);
+  useEffect(() => void refresh(), [id]);
 
   if (!deal) return <div className="text-center py-12">Offre non trouvée</div>;
 
@@ -34,12 +23,12 @@ function OfferDetail() {
           {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
         </span>
 
-        <ReviewComponent dealId={deal.id}/>
+        <ReviewComponent dealId={deal.id} onUpdate={refresh}/>
       </div>
 
       <div className="p-8">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm text-[#E6A4B4] font-medium">{deal.category?.name}</span>
+          <span className="text-sm text-[#E6A4B4] font-medium">{deal.categories?.name}</span>
           <div className="flex items-center space-x-4">
             <FavoriteButton id={deal.id}/>
             <ShareButton title={deal.title}/>
@@ -99,6 +88,14 @@ function OfferDetail() {
       </div>
     </div>
   </div>;
+
+  async function refresh() {
+    await supabase.from('deals').select('*, categories(name), reviews(id, rating)').eq('id', id!).maybeSingle()
+      .then(({data}) => setDeal(data as any), err => {
+        console.error(err);
+        setDeal(void 0);
+      });
+  }
 }
 
 export default OfferDetail;
