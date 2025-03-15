@@ -15,7 +15,7 @@ import {supabase} from "./lib/supabase.ts";
 import {Favourite} from "./lib/database.types.ts";
 
 function App() {
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(20);
   const [user, setUser] = useState<User | null | undefined>(
     JSON.parse(localStorage.getItem('user') ?? 'null') as User);
   const [session, setSession] = useState<Session | null | undefined>(
