@@ -16,9 +16,8 @@ function Layout() {
   useEffect(() => {
     supabase.from('categories')
       .select()
-      .then(({data}) => data as Category[])
-      .then(data => data.sort(({name: a}, {name: b}) => a.localeCompare(b)))
-      .then(data => setCategories(data));
+      .order('name', {ascending:true})
+      .then(({data}) => setCategories(data as any as Category[]))
   }, []);
 
   return (
