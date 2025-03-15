@@ -12,7 +12,7 @@ function OfferDetail() {
   const [deal, setDeal] = useState<Deal>();
 
   useEffect(() => {
-    supabase.from('deals').select('*, reviews!inner(id, rating)').eq('id', id!).maybeSingle()
+    supabase.from('deals').select('*, reviews(id, rating)').eq('id', id!).maybeSingle()
       .then(({data}) => setDeal(data as any), err => {
         console.error(err);
         setDeal(void 0);

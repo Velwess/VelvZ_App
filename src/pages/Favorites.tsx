@@ -1,23 +1,28 @@
 import {Link} from 'react-router-dom';
 import {useContext, useEffect, useState} from "react";
-import {FavouriteDealIdsContext, UserContext} from "../domain/context.ts";
+import {FavouriteDealIdsContext, PageSizeContext, UserContext} from "../domain/context.ts";
 import {supabase} from "../lib/supabase.ts";
 import {DealComponent} from "../components/DealComponent.tsx";
-import {Favourite} from "../lib/database.types.ts";
+import {Deal} from "../lib/database.types.ts";
+import {PagingComponent} from "../components/PagingComponent.tsx";
 
 function Favorites() {
+  const [page, setPage] = useState(0);
   const {user} = useContext(UserContext);
   const [deals, setDeals] = useState<any[]>([]);
+  const {pageSize} = useContext(PageSizeContext);
   const {favouriteDealIds} = useContext(FavouriteDealIdsContext);
 
   useEffect(() => {
     if (!user?.id) return;
     supabase
-      .from('favorites')
-      .select('deals(*, reviews(id, rating))')
-      .eq('user_id', user.id)
-      .in('deal_id', favouriteDealIds ?? [])
-      .then(({data}) => setDeals((data as any as Favourite[])?.map(_ => _.deals) ?? []), console.error);
+      .from('deals')
+      .select('*, reviews(id, rating), favorites!inner(id)')
+      .eq('favorites.user_id', user.id)
+      .in('id', favouriteDealIds ?? [])
+      .order('end_date', {ascending: false})
+      .range(pageSize * page, pageSize * (page + 1) - 1)
+      .then(({data}) => setDeals((data as any as Deal[])), console.error);
   }, [user, favouriteDealIds]);
 
   if (!favouriteDealIds?.length) return <div className="text-center py-16">
@@ -40,6 +45,8 @@ function Favorites() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {deals.map((deal) => <DealComponent deal={deal} key={deal.id}/>)}
     </div>
+
+    <PagingComponent setPage={setPage}/>
   </div>;
 }
 

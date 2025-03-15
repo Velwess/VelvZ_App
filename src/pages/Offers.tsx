@@ -1,9 +1,11 @@
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import {Filter} from 'lucide-react';
 import {Deal} from "../lib/database.types.ts";
 import {supabase} from "../lib/supabase.ts";
 import {DealComponent} from "../components/DealComponent.tsx";
+import {PageSizeContext} from "../domain/context.ts";
+import {PagingComponent} from "../components/PagingComponent.tsx";
 
 interface Sort {
   field: string;
@@ -19,8 +21,10 @@ const SORTS: Sort[] = [
 
 function Offers() {
   const navigate = useNavigate();
+  const [page, setPage] = useState(0)
   const [searchParams] = useSearchParams();
   const [deals, setDeals] = useState<Deal[]>([]);
+  const {pageSize} = useContext(PageSizeContext);
   const [sortField, category_slug, sortAscending] = [
     searchParams.get('sort'), searchParams.get('category'), 'true' === searchParams.get('ascending')];
 
@@ -29,7 +33,8 @@ function Offers() {
       .gte('end_date', new Date().toISOString());
     if (category_slug) query = query.eq('categories.slug', category_slug);
     query
-      .order(sortField ?? 'end_date', {ascending: sortAscending})
+      .order(sortField ?? 'end_date', {ascending: sortField ? sortAscending : false})
+      .range(pageSize * page, pageSize * (page + 1) - 1)
       .then(({data}) => setDeals(data as any as Deal[]), console.error);
   }, [sortField, sortAscending, category_slug]);
 
@@ -51,6 +56,8 @@ function Offers() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {deals?.map((deal) => <DealComponent deal={deal} key={deal.id}/>)}
     </div>
+
+    <PagingComponent setPage={setPage}/>
   </div>;
 
   function search(label = 'Trier') {
