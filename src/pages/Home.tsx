@@ -12,7 +12,8 @@ import {
   Percent,
   Shield,
   ShieldCheck,
-  Sparkles, Star,
+  Sparkles,
+  Star,
   Users
 } from 'lucide-react';
 import {Deal} from "../lib/database.types.ts";
@@ -107,10 +108,12 @@ function Home() {
           <div className="relative px-8 py-16 md:px-16">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
-                <span
-                  className="inline-block bg-[#F4C2C2]/20 text-[#E6A4B4] px-4 py-1 rounded-full text-sm font-medium mb-4">
-                  Rejoignez l'aventure
-                </span>
+                <Link to="/inscription">
+                  <span
+                    className="inline-block bg-[#F4C2C2]/20 text-[#E6A4B4] px-4 py-1 rounded-full text-sm font-medium mb-4">
+                    Rejoignez l'aventure
+                  </span>
+                </Link>
                 <h3 className="text-3xl font-bold text-gray-800 mb-4">Pourquoi nous rejoindre ?</h3>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Velvès vous offre une expérience unique avec des avantages exclusifs pensés pour vous
@@ -263,18 +266,39 @@ function Home() {
         <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">Ce que disent nos utilisateurs</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            {id: 0, name: 'Sophie L.', date: 'Il y a 2 jours', rating: 5, text: "J'adore Velvès ! Les offres sont vraiment intéressantes et j'ai pu découvrir plein de nouvelles marques.", avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200'},
-            {id: 0, name: 'Thomas M.', date: 'Il y a 1 semaine', rating: 3, text: "Une super plateforme qui m'a permis de faire de belles économies sur mes activités préférées.", avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200'},
-            {id: 0, name: 'Emma R.', date: 'Il y a 2 semaines', rating: 4, text: "Les offres sont variées et de qualité. Je recommande vivement !", avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200'},
+            {
+              id: 0,
+              name: 'Sophie L.',
+              date: 'Il y a 2 jours',
+              rating: 5,
+              text: "J'adore Velvès ! Les offres sont vraiment intéressantes et j'ai pu découvrir plein de nouvelles marques.",
+              avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200'
+            },
+            {
+              id: 0,
+              name: 'Thomas M.',
+              date: 'Il y a 1 semaine',
+              rating: 3,
+              text: "Une super plateforme qui m'a permis de faire de belles économies sur mes activités préférées.",
+              avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200'
+            },
+            {
+              id: 0,
+              name: 'Emma R.',
+              date: 'Il y a 2 semaines',
+              rating: 4,
+              text: "Les offres sont variées et de qualité. Je recommande vivement !",
+              avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200'
+            },
           ].map((review) => (
             <div key={review.id} className="bg-white rounded-xl p-6 shadow-sm">
               <div className="flex items-center mb-4">
-                <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full object-cover mr-4" />
+                <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full object-cover mr-4"/>
                 <div>
                   <h4 className="font-semibold text-gray-800">{review.name}</h4>
                   <div className="flex items-center">
                     {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} size={16} className="text-[#FFD700] fill-[#FFD700]" />
+                      <Star key={i} size={16} className="text-[#FFD700] fill-[#FFD700]"/>
                     ))}
                   </div>
                 </div>
