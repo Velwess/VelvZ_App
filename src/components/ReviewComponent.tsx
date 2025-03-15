@@ -16,10 +16,13 @@ export function ReviewComponent({dealId}: { dealId: string }) {
     setVisibleForm(!!review.id);
     setForm(review);
   }, [review]);
-  useEffect(() => void supabase
-    .from('reviews')
-    .select().eq('deal_id', dealId)
-    .maybeSingle().then(({data}) => setReview(data as any)), [dealId]);
+  useEffect(() => {
+    if (!user?.id) return;
+    supabase
+      .from('reviews')
+      .select().match({deal_id: dealId, user_id: user.id})
+      .maybeSingle().then(({data}) => setReview(data as any))
+  }, [dealId, user?.id]);
 
   return <div className="text-right my-4 pl-4">
     <button
