@@ -5,22 +5,18 @@ function Mission() {
 
       <div className="bg-white rounded-xl shadow-lg p-8 space-y-6">
         <p className="text-lg leading-relaxed text-gray-700">
-          La vision de <span className="font-bold text-[#E6A4B4]">Velvès</span> est de devenir la plateforme de référence
-          qui offre aux jeunes un accès facile à des offres exclusives et des réductions sur des produits et services qui
-          enrichissent leur quotidien. Nous cherchons à favoriser l'inclusion sociale, l'épanouissement personnel et à
-          soutenir les jeunes dans leurs passions et leurs ambitions.
+          Parce que chaque jeune mérite de profiter pleinement de son quotidien sans se soucier constamment de son budget, 
+          nous avons imaginé une plateforme qui allège les petits tracas et ouvre les portes à plus de bien-être et de plaisir.
         </p>
 
         <p className="text-lg leading-relaxed text-gray-700">
-          En réunissant les meilleures offres dans des catégories comme la beauté, le bien-être, la nutrition, le sport,
-          et plus encore, <span className="font-bold text-[#E6A4B4]">Velvès</span> veut rendre ces opportunités accessibles
-          à tous, quel que soit le budget. Nous souhaitons offrir un espace où les jeunes peuvent se sentir soutenus dans
-          leurs choix, tout en leur permettant d'optimiser leur pouvoir d'achat et de s'épanouir pleinement.
+          Nous croyons aux instants simples qui font du bien : un café partagé, une sortie qui inspire, un moment rien que pour soi. Grâce à nos offres exclusives,
+          nous aidons les jeunes à accéder plus facilement à leurs envies, qu’il s’agisse de bien-être, de culture ou de plaisirs du quotidien.
         </p>
 
         <p className="text-lg leading-relaxed text-gray-700">
-          Notre plateforme vise à simplifier la recherche et l'accès à des réductions et des produits qui améliorent leur
-          quotidien, tout en créant une communauté dynamique autour de l'échange et du soutien.
+          Ici, pas de frustration ni de compromis entre se faire plaisir et gérer son budget.
+          Juste un espace chaleureux, pensé pour celles et ceux qui veulent vivre pleinement, sans renoncer à ce qui les fait vibrer.
         </p>
       </div>
     </div>
