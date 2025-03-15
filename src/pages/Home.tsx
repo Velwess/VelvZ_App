@@ -15,7 +15,7 @@ import {
   Sparkles,
   Users
 } from 'lucide-react';
-import {Category, Deal} from "../lib/database.types.ts";
+import {Deal} from "../lib/database.types.ts";
 import {supabase} from "../lib/supabase.ts";
 import {DealComponent} from "../components/DealComponent.tsx";
 import {PagingComponent} from "../components/PagingComponent.tsx";
@@ -34,19 +34,10 @@ function Home() {
       .eq('flash', true).gte('end_date', new Date().toISOString())
       .range(pageSize * page, pageSize * (page + 1) - 1)
       .then(({data, count}) => {
-        setDeals(data as any as Deal[])
+        setDeals(data as any as Deal[]);
         setCount(count!);
       }, console.error);
   }, [page, pageSize]);
-  useEffect(() => {
-    if (0 === deals.length) return
-    const categoryIds = deals.map(({category_id}) => category_id).filter((_, i, __) => i === __.indexOf(_));
-    supabase.from('categories').select().in('id', categoryIds).maybeSingle()
-      .then(({data}) => data as any as Category[])
-      .then(categories => {
-        for (const deal of deals) deal.category = categories?.find(({id}) => id === deal.id);
-      }, console.error);
-  }, [deals.length]);
 
   return (
     <>
