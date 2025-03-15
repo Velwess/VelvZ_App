@@ -25,12 +25,12 @@ function Offers() {
     searchParams.get('sort'), searchParams.get('category'), 'true' === searchParams.get('ascending')];
 
   useEffect(() => {
-    let query = supabase.from('deals').select('*, categories!inner(slug)')
+    let query = supabase.from('deals').select('*, categories!inner(slug), reviews(id, rating)')
       .gte('end_date', new Date().toISOString());
     if (category_slug) query = query.eq('categories.slug', category_slug);
     query
       .order(sortField ?? 'end_date', {ascending: sortAscending})
-      .then(({data}) => setDeals(data as Deal[]), console.error);
+      .then(({data}) => setDeals(data as any as Deal[]), console.error);
   }, [sortField, sortAscending, category_slug]);
 
   return <div className="space-y-8">

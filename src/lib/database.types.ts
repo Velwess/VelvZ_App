@@ -1,3 +1,5 @@
+import {User} from "@supabase/supabase-js";
+
 export interface Database {
   public: {
     Tables: {
@@ -13,6 +15,9 @@ export interface Favourite {
   created_at: string;
   user_id: string;
   deal_id: string;
+  deals?: Deal[];
+  user?: User;
+  deal?: Deal;
   id: string;
 }
 
@@ -23,6 +28,8 @@ export interface Review {
   user_id: string;
   deal_id: string;
   rating: number;
+  user?: User;
+  deal?: Deal;
   id: string;
 }
 
@@ -35,22 +42,22 @@ export interface Deal {
   conditions: string[];
   final_price: number;
   description: string;
+  category_id: string;
+  partner_id: string;
   start_date: string;
   location?: string;
   image_url: string;
   deal_url: string;
   end_date: string;
   title: string;
-
-  category_id: string;
   category?: Category;
-
-  partner_id: string;
+  reviews?: Review[];
   partner?: Partner;
 }
 
 export interface Partner {
   id: string;
+  deals?: Deal[];
 }
 
 export interface Category {
@@ -59,4 +66,5 @@ export interface Category {
   slug: string;
   icon: string;
   created_at: string;
+  deals?: Deal[];
 }

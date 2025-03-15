@@ -17,7 +17,10 @@ export function DealComponent({deal}: { deal: Deal }) {
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm text-[#E6A4B4]">{deal.category?.name}</span>
         <div className="flex items-center">
-          {[...Array(5)].map((_, i) => <Star className="text-[#FFD700] mr-1" size={16} key={i}/>)}
+          {(rating => [...Array(5)].map((_, i) => 1 + i).map(i => <Star
+            className={['text-[#FFD700] mr-1', i <= rating ? 'fill-[#FFD700]' : ''].join(' ')}
+            size={16} key={i}/>))(
+            (deal.reviews?.reduce((_, {rating}) => _ + rating, 0) ?? 0) / (deal.reviews?.length ?? 1))}
         </div>
       </div>
       <h4 className="text-xl font-semibold text-gray-800 mb-2">{deal.title}</h4>

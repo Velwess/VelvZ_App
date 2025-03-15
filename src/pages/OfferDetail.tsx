@@ -12,7 +12,7 @@ function OfferDetail() {
   const [deal, setDeal] = useState<Deal>();
 
   useEffect(() => {
-    supabase.from('deals').select().eq('id', id!).maybeSingle()
+    supabase.from('deals').select('*, reviews!inner(id, rating)').eq('id', id!).maybeSingle()
       .then(({data}) => setDeal(data as any), err => {
         console.error(err);
         setDeal(void 0);
@@ -31,8 +31,8 @@ function OfferDetail() {
       <div className="relative">
         <img src={deal.image_url} alt={deal.title} className="w-full h-[400px] object-cover"/>
         <span className="absolute top-4 right-4 bg-[#DA70D6] text-white px-3 py-1 rounded-full font-semibold">
-            {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
-          </span>
+          {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
+        </span>
 
         <ReviewComponent dealId={deal.id}/>
       </div>
@@ -50,8 +50,12 @@ function OfferDetail() {
 
         <div className="flex items-center space-x-4 mb-6">
           <div className="flex items-center">
-            {[...Array(5)].map((_, i) => <Star className="text-[#FFD700] mr-1" size={20} key={i}/>)}
-            <span className="text-gray-500 ml-1">(0 avis)</span>
+            {(rating => [...Array(5)].map((_, i) => 1 + i).map(i => <Star
+              className={['text-[#FFD700] mr-1', i <= rating ? 'fill-[#FFD700]' : ''].join(' ')}
+              size={20}
+              key={i}/>))(
+              (deal.reviews?.reduce((_, {rating}) => _ + rating, 0) ?? 0) / (deal.reviews?.length ?? 1))}
+            <span className="text-gray-500 ml-1">({deal.reviews?.length ?? 0} avis)</span>
           </div>
           <div className="flex items-center text-gray-600">
             <MapPin size={20} className="mr-1"/>

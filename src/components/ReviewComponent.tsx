@@ -41,7 +41,7 @@ export function ReviewComponent({dealId}: { dealId: string }) {
           onClick={() => setForm({...form, rating: i})}
           key={i}/>)}
       </div>
-      <textarea className="p-1 my-4 w-full border rounded drop-shadow"
+      <textarea className="px-2 py-1 my-4 w-full border rounded drop-shadow"
                 onChange={e => setForm({...form, comment: e.target.value})}
                 value={form.comment ??= ''}/>
     </>}

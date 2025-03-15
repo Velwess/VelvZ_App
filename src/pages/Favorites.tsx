@@ -3,20 +3,21 @@ import {useContext, useEffect, useState} from "react";
 import {FavouriteDealIdsContext, UserContext} from "../domain/context.ts";
 import {supabase} from "../lib/supabase.ts";
 import {DealComponent} from "../components/DealComponent.tsx";
+import {Favourite} from "../lib/database.types.ts";
 
 function Favorites() {
   const {user} = useContext(UserContext);
-  const [deals, setFavoriteDeals] = useState<any[]>([]);
+  const [deals, setDeals] = useState<any[]>([]);
   const {favouriteDealIds} = useContext(FavouriteDealIdsContext);
 
   useEffect(() => {
     if (!user?.id) return;
     supabase
       .from('favorites')
-      .select('deals(*)')
+      .select('deals(*, reviews(id, rating))')
       .eq('user_id', user.id)
       .in('deal_id', favouriteDealIds ?? [])
-      .then(({data}) => setFavoriteDeals(data?.map(_ => _.deals) ?? []), console.error);
+      .then(({data}) => setDeals((data as any as Favourite[])?.map(_ => _.deals) ?? []), console.error);
   }, [user, favouriteDealIds]);
 
   if (!favouriteDealIds?.length) return <div className="text-center py-16">

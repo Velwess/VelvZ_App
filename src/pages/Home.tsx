@@ -24,14 +24,15 @@ function Home() {
   const [deals, setDeals] = useState<Deal[]>([]);
 
   useEffect(() => {
-    supabase.from('deals').select().eq('flash', true).gte('end_date', new Date().toISOString())
-      .then(({data}) => setDeals(data as Deal[]), console.error);
+    supabase.from('deals').select('*, reviews(id, rating)')
+      .eq('flash', true).gte('end_date', new Date().toISOString())
+      .then(({data}) => setDeals(data as any as Deal[]), console.error);
   }, []);
   useEffect(() => {
     if (0 === deals.length) return
     const categoryIds = deals.map(({category_id}) => category_id).filter((_, i, __) => i === __.indexOf(_));
     supabase.from('categories').select().in('id', categoryIds).maybeSingle()
-      .then(({data}) => data as Category[])
+      .then(({data}) => data as any as Category[])
       .then(categories => {
         for (const deal of deals) deal.category = categories?.find(({id}) => id === deal.id);
       }, console.error);
