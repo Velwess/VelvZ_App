@@ -1,7 +1,12 @@
 export interface Database {
-  categories: Category;
-  favorite: Favourite;
-  deal: Deal;
+  public: {
+    Tables: {
+      deals: { Row: Deal, Insert: Partial<Deal>, Update: Partial<Deal> },
+      reviews: { Row: Review, Insert: Partial<Review>, Update: Partial<Review> },
+      categories: { Row: Category, Insert: Partial<Category>, Update: Partial<Category> },
+      favorites: { Row: Favourite, Insert: Partial<Favourite>, Update: Partial<Favourite> },
+    }
+  }
 }
 
 export interface Favourite {
@@ -10,6 +15,17 @@ export interface Favourite {
   deal_id: string;
   id: string;
 }
+
+export interface Review {
+  created_at: string;
+  updated_at: string;
+  comment: string;
+  user_id: string;
+  deal_id: string;
+  rating: number;
+  id: string;
+}
+
 export interface Deal {
   id: string;
   created_at: string;

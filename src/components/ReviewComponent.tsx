@@ -1,0 +1,49 @@
+import {Review} from "../lib/database.types.ts";
+import {useContext, useEffect, useState} from "react";
+import {Star} from "lucide-react";
+import {UserContext} from "../domain/context.ts";
+import {supabase} from "../lib/supabase.ts";
+
+export function ReviewComponent({dealId}: { dealId: string }) {
+  const {user} = useContext(UserContext);
+  const [pending, setPending] = useState(false);
+  const [review, setReview] = useState<Review | null>();
+  const [visibleForm, setVisibleForm] = useState(false);
+  const [form, setForm] = useState<{ rating?: number, comment?: string }>({rating: 5});
+
+  useEffect(() => {
+    if (!review) return;
+    setVisibleForm(!!review.id);
+    setForm(review);
+  }, [review]);
+  useEffect(() => void supabase
+    .from('reviews')
+    .select().eq('deal_id', dealId)
+    .maybeSingle().then(({data}) => setReview(data as any)), [dealId]);
+
+  return <div className="text-right my-4 pl-4">
+    <button
+      className="px-4 py-2 text-white rounded-full transition-colors font-medium disabled:bg-gray-300 bg-[#E6A4B4] hover:bg-[#DA70D6]"
+      onClick={visibleForm ? () => {
+        setPending(true);
+        user?.id && Promise.resolve(supabase.from('reviews')
+          .upsert({...form, deal_id: dealId, user_id: user.id}))
+          .finally(() => setPending(false));
+      } : () => setVisibleForm(true)}
+      disabled={!(user) || pending}>
+      {visibleForm ? review?.id ? 'Modifier' : 'Publier' : user ? 'Je laisse une revue' : '(Je me connecte et laisse une revue)'}
+    </button>
+
+    {visibleForm && <>
+      <div>
+        {[...Array(5)].map((_, i) => i + 1).map(i => <Star
+          className={['text-[#FFD700] inline-block mr-1', i <= (form.rating ?? 1) ? 'fill-[#FFD700]' : ''].join(' ')}
+          onClick={() => setForm({...form, rating: i})}
+          key={i}/>)}
+      </div>
+      <textarea className="p-1 my-4 w-full border rounded drop-shadow"
+                onChange={e => setForm({...form, comment: e.target.value})}
+                value={form.comment ??= ''}/>
+    </>}
+  </div>;
+}
