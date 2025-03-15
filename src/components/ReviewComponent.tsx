@@ -9,7 +9,7 @@ export function ReviewComponent({dealId}: { dealId: string }) {
   const [pending, setPending] = useState(false);
   const [review, setReview] = useState<Review | null>();
   const [visibleForm, setVisibleForm] = useState(false);
-  const [form, setForm] = useState<{ rating?: number, comment?: string }>({rating: 5});
+  const [form, setForm] = useState<Partial<Pick<Review, 'id' | 'deal_id' | 'user_id' | 'rating' | 'comment'>>>({rating: 5});
 
   useEffect(() => {
     if (!review) return;
@@ -29,10 +29,16 @@ export function ReviewComponent({dealId}: { dealId: string }) {
       className="px-4 py-2 text-white rounded-full transition-colors font-medium disabled:bg-gray-300 bg-[#E6A4B4] hover:bg-[#DA70D6]"
       onClick={visibleForm ? () => {
         setPending(true);
-        user?.id && Promise.resolve(supabase.from('reviews')
-          .upsert({...form, deal_id: dealId, user_id: user.id},
-            {ignoreDuplicates: true, onConflict: 'deal_id, user_id'}))
-          .finally(() => setPending(false));
+        (async () => {
+          if (user?.id) {
+            if ((form as any)?.id)
+              await supabase.from('reviews')
+                .update({comment: form.comment, rating: form.rating, deal_id: dealId, user_id: user.id})
+                .eq('id', form.id!);
+            else await supabase.from('reviews').insert({...form, deal_id: dealId, user_id: user.id});
+            setPending(false);
+          }
+        })();
       } : () => setVisibleForm(true)}
       disabled={!(user) || pending}>
       {visibleForm ? review?.id ? 'Modifier' : 'Publier' : user ? 'Je laisse une revue' : '(Je me connecte et laisse une revue)'}
