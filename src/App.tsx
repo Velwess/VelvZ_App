@@ -24,9 +24,11 @@ function App() {
     JSON.parse(localStorage.getItem('favouriteDealIds') ?? 'null')?.sort() as string[]);
 
   useEffect(() => void (user?.id && (async () => {
-    await supabase.from('favorites').upsert(favouriteDealIds?.map(deal_id => ({deal_id, user_id: user.id})) ?? []);
-    await Promise.resolve(supabase.from('favorites').select('deal_id').eq('user_id', user.id)
-      .then(({data}) => setFavouriteDealIds?.((data as any as Favourite[])?.map(_ => _.deal_id) ?? [].sort()), console.error));
+    await supabase.from('favorites')
+      .upsert(favouriteDealIds?.map(deal_id => ({deal_id, user_id: user.id})) ?? [],
+        {ignoreDuplicates: true, onConflict: 'deal_id, user_id'});
+    await Promise.resolve(supabase.from('favorites').select('deal_id').eq('user_id', user.id).then(({data}) =>
+      setFavouriteDealIds?.((data as any as Favourite[])?.map(_ => _.deal_id) ?? [].sort()), console.error));
   })()), []);
   useEffect(() =>
     localStorage.setItem('user', JSON.stringify(user ?? null)), [user]);

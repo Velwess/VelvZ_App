@@ -27,7 +27,8 @@ export function ReviewComponent({dealId}: { dealId: string }) {
       onClick={visibleForm ? () => {
         setPending(true);
         user?.id && Promise.resolve(supabase.from('reviews')
-          .upsert({...form, deal_id: dealId, user_id: user.id}))
+          .upsert({...form, deal_id: dealId, user_id: user.id},
+            {ignoreDuplicates: true, onConflict: 'deal_id, user_id'}))
           .finally(() => setPending(false));
       } : () => setVisibleForm(true)}
       disabled={!(user) || pending}>

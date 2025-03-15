@@ -24,7 +24,9 @@ export function FavoriteButton({id, className = ''}: FavoriteButtonProps) {
               if (user?.id) await supabase.from('favorites').delete().match({deal_id: id, user_id: user.id});
               setFavouriteDealIds?.(favouriteDealIds?.filter(_ => _ !== id) ?? []);
             } else {
-              if (user?.id) await supabase.from('favorites').upsert({deal_id: id, user_id: user.id});
+              if (user?.id)
+                await supabase.from('favorites')
+                  .upsert({deal_id: id, user_id: user.id}, {ignoreDuplicates: true, onConflict: 'deal_id, user_id'});
               setFavouriteDealIds?.([...favouriteDealIds ?? [], id]);
             }
           } catch (error) {

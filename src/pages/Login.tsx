@@ -3,6 +3,7 @@ import {ArrowRight} from 'lucide-react';
 import {Link, useNavigate} from 'react-router-dom';
 import {supabase} from "../lib/supabase.ts";
 import {FavouriteDealIdsContext, SessionContext, UserContext} from "../domain/context.ts";
+import {Favourite} from "../lib/database.types.ts";
 
 function Login() {
   const navigate = useNavigate();
@@ -132,10 +133,10 @@ function Login() {
       if (error) throw error;
       if (data?.user?.id) {
         await supabase.from('favorites')
-          .upsert(favouriteDealIds?.map(_ => ({deal_id: _, user_id: data.user.id})) ?? []);
-        await supabase.from('favorites')
-          .select('deal_id').eq('user_id', data.user.id)
-          .then(({data}) => setFavouriteDealIds?.(data?.map(_ => _.deal_id) ?? []), console.error);
+          .upsert(favouriteDealIds?.map(_ => ({deal_id: _, user_id: data.user.id})) ?? [],
+            {ignoreDuplicates: true, onConflict: 'deal_id, user_id'});
+        await supabase.from('favorites').select('deal_id').eq('user_id', data.user.id).then(({data}) =>
+          setFavouriteDealIds?.((data as any as Favourite[] ?? []).map(_ => _.deal_id)), console.error);
       }
       setTimeout(() => navigate(`/`), 3_000);
       sessionContext.$set?.(data.session);
