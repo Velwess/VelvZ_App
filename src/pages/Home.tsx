@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {
   ArrowRight,
@@ -19,20 +19,25 @@ import {Category, Deal} from "../lib/database.types.ts";
 import {supabase} from "../lib/supabase.ts";
 import {DealComponent} from "../components/DealComponent.tsx";
 import {PagingComponent} from "../components/PagingComponent.tsx";
-import {PageSizeContext} from "../domain/context.ts";
 
 function Home() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
+  const [pageSize, setPageSize] = useState(0);
   const [deals, setDeals] = useState<Deal[]>([]);
-  const {pageSize} = useContext(PageSizeContext);
 
   useEffect(() => {
-    supabase.from('deals').select('*, reviews(id, rating)')
+    if (!pageSize) return;
+    supabase.from('deals')
+      .select('*, reviews(id, rating)', {count: 'exact'})
       .eq('flash', true).gte('end_date', new Date().toISOString())
       .range(pageSize * page, pageSize * (page + 1) - 1)
-      .then(({data}) => setDeals(data as any as Deal[]), console.error);
-  }, []);
+      .then(({data, count}) => {
+        setDeals(data as any as Deal[])
+        setCount(count!);
+      }, console.error);
+  }, [page, pageSize]);
   useEffect(() => {
     if (0 === deals.length) return
     const categoryIds = deals.map(({category_id}) => category_id).filter((_, i, __) => i === __.indexOf(_));
@@ -89,7 +94,7 @@ function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {deals.map(deal => <DealComponent deal={deal} key={deal.id}/>)}
         </div>
-        <PagingComponent setPage={setPage}/>
+        <PagingComponent {...{count, setPage, setPageSize}} />
       </section>
 
       {/* Why Join Us Section */}

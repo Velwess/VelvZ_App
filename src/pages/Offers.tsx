@@ -1,10 +1,9 @@
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import {Filter} from 'lucide-react';
 import {Deal} from "../lib/database.types.ts";
 import {supabase} from "../lib/supabase.ts";
 import {DealComponent} from "../components/DealComponent.tsx";
-import {PageSizeContext} from "../domain/context.ts";
 import {PagingComponent} from "../components/PagingComponent.tsx";
 
 interface Sort {
@@ -21,22 +20,28 @@ const SORTS: Sort[] = [
 
 function Offers() {
   const navigate = useNavigate();
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
   const [searchParams] = useSearchParams();
+  const [pageSize, setPageSize] = useState(0);
   const [deals, setDeals] = useState<Deal[]>([]);
-  const {pageSize} = useContext(PageSizeContext);
   const [sortField, category_slug, sortAscending] = [
     searchParams.get('sort'), searchParams.get('category'), 'true' === searchParams.get('ascending')];
 
   useEffect(() => {
-    let query = supabase.from('deals').select('*, categories!inner(slug), reviews(id, rating)')
+    if (!pageSize) return;
+    let query = supabase.from('deals')
+      .select('*, categories!inner(slug), reviews(id, rating)', {count: 'exact'})
       .gte('end_date', new Date().toISOString());
     if (category_slug) query = query.eq('categories.slug', category_slug);
     query
       .order(sortField ?? 'end_date', {ascending: sortField ? sortAscending : false})
       .range(pageSize * page, pageSize * (page + 1) - 1)
-      .then(({data}) => setDeals(data as any as Deal[]), console.error);
-  }, [sortField, sortAscending, category_slug]);
+      .then(({data, count}) => {
+        setDeals(data as any as Deal[]);
+        setCount(count!);
+      }, console.error);
+  }, [page, pageSize, sortField, sortAscending, category_slug]);
 
   return <div className="space-y-8">
     <div className="flex items-center justify-between">
@@ -57,7 +62,7 @@ function Offers() {
       {deals?.map((deal) => <DealComponent deal={deal} key={deal.id}/>)}
     </div>
 
-    <PagingComponent setPage={setPage}/>
+    <PagingComponent {...{count, setPage, setPageSize}} />
   </div>;
 
   function search(label = 'Trier') {

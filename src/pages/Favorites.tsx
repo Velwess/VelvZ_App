@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {useContext, useEffect, useState} from "react";
-import {FavouriteDealIdsContext, PageSizeContext, UserContext} from "../domain/context.ts";
+import {FavouriteDealIdsContext, UserContext} from "../domain/context.ts";
 import {supabase} from "../lib/supabase.ts";
 import {DealComponent} from "../components/DealComponent.tsx";
 import {Deal} from "../lib/database.types.ts";
@@ -8,22 +8,26 @@ import {PagingComponent} from "../components/PagingComponent.tsx";
 
 function Favorites() {
   const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
   const {user} = useContext(UserContext);
+  const [pageSize, setPageSize] = useState(0);
   const [deals, setDeals] = useState<any[]>([]);
-  const {pageSize} = useContext(PageSizeContext);
   const {favouriteDealIds} = useContext(FavouriteDealIdsContext);
 
   useEffect(() => {
-    if (!user?.id) return;
+    if (!user?.id || !pageSize) return;
     supabase
       .from('deals')
-      .select('*, reviews(id, rating), favorites!inner(id)')
+      .select('*, reviews(id, rating), favorites!inner(id)', {count: 'exact'})
       .eq('favorites.user_id', user.id)
       .in('id', favouriteDealIds ?? [])
       .order('end_date', {ascending: false})
       .range(pageSize * page, pageSize * (page + 1) - 1)
-      .then(({data}) => setDeals((data as any as Deal[])), console.error);
-  }, [user, favouriteDealIds]);
+      .then(({data, count}) => {
+        setDeals((data as any as Deal[]));
+        setCount(count!);
+      }, console.error);
+  }, [page, user, pageSize, favouriteDealIds]);
 
   if (!favouriteDealIds?.length) return <div className="text-center py-16">
     <h2 className="text-3xl font-bold text-gray-800 mb-4">Mes Favoris</h2>
@@ -46,7 +50,7 @@ function Favorites() {
       {deals.map((deal) => <DealComponent deal={deal} key={deal.id}/>)}
     </div>
 
-    <PagingComponent setPage={setPage}/>
+    <PagingComponent {...{count, setPage, setPageSize}} />
   </div>;
 }
 
