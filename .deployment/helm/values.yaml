@@ -1,0 +1,9 @@
+app:
+  hosts:
+  - velzapp.com
+  - www.velzapp.com
+  certificate:
+    secret: velzapp-dot-com-certs
+  image:
+    tag: v0.0.1
+    repository: ghcr.io/velwess/velzapp
