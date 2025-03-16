@@ -13,7 +13,7 @@ import {useEffect, useState} from "react";
 import {Session, User} from "@supabase/supabase-js";
 import {supabase} from "./lib/supabase.ts";
 import {Favourite} from "./lib/database.types.ts";
-import CGU from "./pages/CGU";
+import CGU from './pages/CGU ';
 import Mission from "./pages/Mission.tsx";
 
 function App() {
