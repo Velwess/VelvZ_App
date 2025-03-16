@@ -31,7 +31,8 @@ jobs:
             echo "VERSION=v$VERSION" >> $GITHUB_ENV
           else
             echo "Tag 'v$VERSION' found but not matching v<SEMVER>" >&2
-            exit -1
+            echo "Falling back to auto generated docker-image-only tag..." >&2
+            echo "VERSION=v$(jq -r '.version' < package.json)-v$(date '+%Y%m%d%H%M%S')" >> $GITHUB_ENV
           fi
 
       - name: Setup Docker Buildx
