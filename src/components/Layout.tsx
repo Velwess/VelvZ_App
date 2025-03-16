@@ -129,13 +129,13 @@ function Layout() {
                 <li className="flex items-center text-gray-600">
                   <Phone size={18} className="mr-2 text-[#E6A4B4]"/>
                   <a href="tel:+33123456789" className="hover:text-[#E6A4B4] transition-colors">
-                    01 23 45 67 89
+                    +33 (0) 1 23 45 67 89
                   </a>
                 </li>
                 <li className="flex items-center text-gray-600">
                   <Mail size={18} className="mr-2 text-[#E6A4B4]"/>
-                  <a href="mailto:contact@velves.fr" className="hover:text-[#E6A4B4] transition-colors">
-                    contact@velves.fr
+                  <a href="mailto:contact@velzapp.com" className="hover:text-[#E6A4B4] transition-colors">
+                    contact@velzapp.com
                   </a>
                 </li>
               </ul>
