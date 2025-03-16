@@ -58,7 +58,7 @@ function Home() {
         <div className="relative p-12">
           <div className="max-w-2xl">
             <h2 className="text-4xl font-bold text-white mb-4">Des offres exclusives pour les jeunes</h2>
-            <p className="text-lg text-white/90 mb-8">Découvrez les meilleures réductions sur vos marques préférées</p>
+            <p className="text-lg text-white/90 mb-8">Découvrons les meilleures réductions sur vos marques préférées</p>
             <Link
               to="/offres"
               className="bg-white hover:bg-white/90 text-[#DA70D6] px-8 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:shadow-xl inline-flex items-center group"
