@@ -9,7 +9,7 @@ spec:
     kind: Deployment
     apiVersion: apps/v1
     name: {{ include "helm.fullname" . | quote }}
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 4
   metrics:
     - type: Resource
@@ -17,7 +17,7 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 70
+          averageUtilization: 80
     - type: Resource
       resource:
         name: memory
