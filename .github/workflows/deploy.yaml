@@ -57,7 +57,8 @@ jobs:
       shell: bash
       run: |
         echo "$HELM_VALUES" | base64 --decode >> .deployment/helm/values.yaml
-        cat .deployment/helm/values.yaml
+        ls -al .deployment/helm/values.yaml
+        echo "$HELM_VALUES" | wc -c
         echo "$KUBE_CONFIG" | base64 --decode >> .kube-config.yaml
 
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
