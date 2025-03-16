@@ -1,4 +1,4 @@
-function CGU() {
+function cgu() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Nos conditions générales d'utilisation</h1>
@@ -88,7 +88,7 @@ function CGU() {
   );
 }
 
-export default CGU;
+export default cgu;
 ;
 
 
