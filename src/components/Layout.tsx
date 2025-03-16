@@ -117,8 +117,8 @@ function Layout() {
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Aide</h4>
               <ul className="space-y-2 text-gray-600">
               
-                <li>Conditions d'utilisation</li>
-                <li>Politique de confidentialité</li>
+                <li>Conditions générales d'utilisation</li>
+                
                 <li>Cookies</li>
                 <li>Mentions légales</li>
               </ul>
