@@ -117,7 +117,7 @@ function Layout() {
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Aide</h4>
               <ul className="space-y-2 text-gray-600">
               
-                <li>Conditions générales d'utilisation</li>
+                <li><Link to="/CGU" className="hover:text-[#E6A4B4] transition-colors">Conditions générales d'utilisation </Link></li>
                 
                 <li>Cookies</li>
                 <li>Mentions légales</li>
