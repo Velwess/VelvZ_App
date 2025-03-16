@@ -43,7 +43,7 @@ jobs:
       shell: bash
       run: |
         npm ci
-        npm build
+        npm run build
         tar -cvzf "velzapp-${{ env.VERSION }}.tar.gz" dist
 
     - name: Release
