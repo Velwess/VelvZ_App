@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import {Session, User} from "@supabase/supabase-js";
 import {supabase} from "./lib/supabase.ts";
 import {Favourite} from "./lib/database.types.ts";
+import CGU from "./pages/CGU";
 import Mission from "./pages/Mission.tsx";
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
                 <Route path="favoris" element={<Favorites/>}/>
                 <Route path="inscription" element={<Register/>}/>
                 <Route path="connexion" element={<Login/>}/>
+                <Route path="cgu" element={<CGU/>}/>
                 <Route path="partenaire" element={<Partner/>}/>
               </Route>
             </Routes>
@@ -64,3 +66,12 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
