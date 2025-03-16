@@ -8,12 +8,12 @@ import Favorites from './pages/Favorites';
 import Register from './pages/Register';
 import Partner from './pages/Partner';
 import Login from './pages/Login';
+import CGU from './pages/CGU ';
 import {FavouriteDealIdsContext, PageSizeContext, SessionContext, UserContext} from "./domain/context.ts";
 import {useEffect, useState} from "react";
 import {Session, User} from "@supabase/supabase-js";
 import {supabase} from "./lib/supabase.ts";
 import {Favourite} from "./lib/database.types.ts";
-import CGU from './pages/CGU ';
 import Mission from "./pages/Mission.tsx";
 
 function App() {
