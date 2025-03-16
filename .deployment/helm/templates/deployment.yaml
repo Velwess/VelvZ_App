@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.fullname" . }}
+  labels:
+    app: {{ include "helm.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "helm.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "helm.fullname" . }}
+    spec:
+      containers:
+      - imagePullPolicy: Always
+        name: {{ include "helm.fullname" . }}
+        env:
+        - name: PORT
+          value: "80"
+        - name: HOST
+          value: "0.0.0.0"
+        image: {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
+        ports:
+        - name: http
+          protocol: TCP
+          containerPort: 80
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1Gi

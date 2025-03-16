@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+    - 'v*.*.*'
+
+jobs:
+  release:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Get Tag
+      shell: bash
+      run: |
+        VERSION="${GITHUB_REF#refs/tags/v}"
+
+        if [[ "$VERSION" =~ ^(0|[1-9]\d*)+\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-[a-zA-Z0-9_-]*)?$ ]]; then
+          echo "VERSION=v$VERSION" >> $GITHUB_ENV
+        else
+          echo "Tag 'v$VERSION' found but not matching v<SEMVER>" >&2
+          exit -1
+        fi
+
+    - name: Setup NodeJS
+      if: ${{ env.VERSION }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    - uses: pnpm/action-setup@v4
+      if: ${{ env.VERSION }}
+      with:
+        version: 10
+
+    - name: Build
+      if: ${{ env.VERSION }}
+      shell: bash
+      run: |
+        npm ci
+        npm build
+        tar -cvzf "velzapp-${{ env.VERSION }}.tar.gz" dist
+
+    - name: Release
+      if: ${{ env.VERSION }}
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          ./velzapp-${{ env.VERSION }}.tar.gz
+        tag_name: ${{ env.VERSION }}
+        generate_release_notes: true
+        prerelease: false
+        draft: false
