@@ -30,7 +30,7 @@ function Layout() {
               <Link to="/" className="logo-container">
                 <Sparkles className="text-[#E6A4B4] absolute -left-1 -top-1" size={16}/>
                 <span className="logo-text text-2xl relative">
-                  Velvès
+                  Velz
                 </span>
               </Link>
               <nav className="hidden md:flex space-x-6">
