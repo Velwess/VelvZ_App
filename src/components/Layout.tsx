@@ -129,7 +129,7 @@ function Layout() {
                 <li className="flex items-center text-gray-600">
                   <Phone size={18} className="mr-2 text-[#E6A4B4]"/>
                   <a href="tel:+33752081934" className="hover:text-[#E6A4B4] transition-colors">
-                    +337 52 08 19 34
+                    +33 (0)7 52 08 19 34
                   </a>
                 </li>
                 <li className="flex items-center text-gray-600">
