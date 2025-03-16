@@ -116,7 +116,7 @@ function Layout() {
             <div>
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Aide</h4>
               <ul className="space-y-2 text-gray-600">
-                <li>Contact</li>
+              
                 <li>Conditions d'utilisation</li>
                 <li>Politique de confidentialité</li>
                 <li>Cookies</li>
@@ -128,8 +128,8 @@ function Layout() {
               <ul className="space-y-3">
                 <li className="flex items-center text-gray-600">
                   <Phone size={18} className="mr-2 text-[#E6A4B4]"/>
-                  <a href="tel:+33123456789" className="hover:text-[#E6A4B4] transition-colors">
-                    +33 (0) 1 23 45 67 89
+                  <a href="tel:+33752081934" className="hover:text-[#E6A4B4] transition-colors">
+                    +337 52 08 19 34
                   </a>
                 </li>
                 <li className="flex items-center text-gray-600">
