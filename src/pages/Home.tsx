@@ -63,7 +63,7 @@ function Home() {
 
 <p className="text-lg text-white/90 mb-8">Vous pouvez vous préinscrire dès à présent 💞</p>
 
-<p className="text-lg text-white/90 mb-8">Découvrons les meilleures réductions sur vos marques préférées</p>
+<p className="text-lg text-white/90 mb-8">Soutenir le projet 🤍</p>
 
             <Link
               to="/inscription"
