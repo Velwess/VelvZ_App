@@ -110,7 +110,7 @@ function Layout() {
               <h4 className="text-lg font-semibold text-gray-800 mb-4">À propos</h4>
               <ul className="space-y-2 text-gray-600">
                 <li><Link to="/vision" className="hover:text-[#E6A4B4] transition-colors">Notre Vision</Link></li>
-                <li><Link to="/Mission" className="hover:text-[#E6A4B4] transition-colors">Notre mission</Link></li>
+                <li><Link to="/mission" className="hover:text-[#E6A4B4] transition-colors">Notre mission</Link></li>
               </ul>
             </div>
             <div>
