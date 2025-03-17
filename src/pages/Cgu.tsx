@@ -2,8 +2,18 @@ function Cgu() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Nos conditions générales d'utilisation</h1>
-
+      
       <div className="bg-white rounded-xl shadow-lg p-8 space-y-6">
+      {/* Disclaimer */}
+       <section>
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">Disclaimer</h2>
+        <p className="text-lg font-semibold text-red-600">
+          ⚠️ Version de test : Ces CGU sont en cours d'élaboration et
+          peuvent être modifiées.
+        </p>
+       </section>
+
+      
         {/* Section: Introduction */}
         <section>
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Introduction</h2>
