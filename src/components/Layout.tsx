@@ -154,6 +154,14 @@ function Layout() {
                 </li>
                 <li>
                   <Link
+                    to="/commitment"
+                    className="hover:text-[#E6A4B4] transition-colors"
+                  >
+                    Notre engagement 
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/mission"
                     className="hover:text-[#E6A4B4] transition-colors"
                   >
