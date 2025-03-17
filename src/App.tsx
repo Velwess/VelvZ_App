@@ -8,7 +8,7 @@ import Favorites from "./pages/Favorites";
 import Register from "./pages/Register";
 import Partner from "./pages/Partner";
 import Login from "./pages/Login";
-import CGU from "./pages/Cgu";
+import Cgu from "./pages/Cgu";
 import {
   FavouriteDealIdsContext,
   PageSizeContext,
@@ -102,7 +102,7 @@ function App() {
                   <Route path="favoris" element={<Favorites />} />
                   <Route path="inscription" element={<Register />} />
                   <Route path="connexion" element={<Login />} />
-                  <Route path="cgu" element={<CGU />} />
+                  <Route path="cgu" element={<Cgu />} />
                   <Route path="partenaire" element={<Partner />} />
                 </Route>
               </Routes>
