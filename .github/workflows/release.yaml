@@ -42,9 +42,10 @@ jobs:
       if: ${{ env.VERSION }}
       shell: bash
       run: |
-        npm ci
+        pnpm install --global pnpm
+        pnpm install
         echo "${{ secrets.DOT_ENV }}" | base64 --decode > .env
-        npm run build
+        pnpm build
         tar -cvzf "velzapp-${{ env.VERSION }}.tar.gz" dist
 
     - name: Release

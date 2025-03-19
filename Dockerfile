@@ -1,11 +1,12 @@
 FROM node:22-alpine3.21 AS build
+RUN npm install --global pnpm
 WORKDIR /opt/app
 
-COPY package.json package-lock.jso[n] .
-RUN npm ci
+COPY package.json pnpm-lock.yam[l] package-lock.jso[n] .
+RUN pnpm install
 
 COPY . .
-RUN npm run build
+RUN pnpm build
 
 
 FROM nginx:1.27-alpine3.21 AS production
