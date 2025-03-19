@@ -43,6 +43,7 @@ jobs:
       shell: bash
       run: |
         npm ci
+        echo "${{ secrets.DOT_ENV }}" | base64 --decode > .env
         npm run build
         tar -cvzf "velzapp-${{ env.VERSION }}.tar.gz" dist
 
