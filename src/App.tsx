@@ -10,6 +10,7 @@ import Partner from "./pages/Partner";
 import Login from "./pages/Login";
 import Cgu from "./pages/Cgu";
 import Commitment from "./pages/Commitment";
+import History from "./pages/History";
 
 import {
   FavouriteDealIdsContext,
@@ -105,8 +106,9 @@ function App() {
                   <Route path="inscription" element={<Register />} />
                   <Route path="connexion" element={<Login />} />
                   <Route path="cgu" element={<Cgu />} />
-                   <Route path="commitment" element={<Commitment />} />
+                  <Route path="commitment" element={<Commitment />} />
                   <Route path="partenaire" element={<Partner />} />
+                  <Route path="histoire" element={<History />} />
                 </Route>
               </Routes>
             </Router>
