@@ -152,6 +152,20 @@ function Layout() {
                     Notre Vision
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    to="/histoire"
+                    className="hover:text-[#E6A4B4] transition-colors"
+                  >
+                    Notre Histoire
+                  </Link>
+                </li>
+
+                
+
+                
+
                 <li>
                   <Link
                     to="/commitment"
