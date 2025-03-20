@@ -313,7 +313,7 @@ function Home() {
               name: "Sophie L.",
               date: "Il y a 2 jours",
               rating: 5,
-              text: "J'adore Velvès ! Les offres sont vraiment intéressantes et j'ai pu découvrir plein de nouvelles marques.",
+              text: "J'adore VelZ! Les offres sont vraiment intéressantes et j'ai pu découvrir plein de nouvelles marques.",
               avatar:
                 "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200",
             },
