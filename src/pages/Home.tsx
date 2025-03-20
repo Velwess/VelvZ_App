@@ -135,8 +135,7 @@ function Home() {
                   Pourquoi nous rejoindre ?
                 </h3>
                 <p className="text-gray-600 max-w-2xl mx-auto">
-                  Velvès vous offre une expérience unique avec des avantages
-                  exclusifs pensés pour vous
+                  Avec VelZ, une vie saine au meilleur prix 😊
                 </p>
               </div>
 
@@ -149,7 +148,7 @@ function Home() {
                     Réductions Exclusives
                   </h4>
                   <p className="text-gray-600">
-                    Jusqu'à -50% sur vos marques et activités préférées
+                    Jusqu'à -50% sur vos essentiels et activités préférées
                   </p>
                 </div>
 
@@ -195,7 +194,7 @@ function Home() {
                   to="/inscription"
                   className="inline-flex items-center bg-gradient-to-r from-[#E6A4B4] to-[#DA70D6] text-white px-8 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
                 >
-                  Découvrir tous les avantages
+                  Découvrir nos bons plans
                   <ArrowRight className="ml-2" size={20} />
                 </Link>
               </div>
@@ -211,7 +210,7 @@ function Home() {
             Notre Engagement
           </h3>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Chez Velvès, nous nous engageons à créer un impact positif pour nos
+            Chez VelZ, nous nous engageons à créer un impact positif pour nos
             utilisateurs et notre communauté
           </p>
         </div>
@@ -225,10 +224,8 @@ function Home() {
                 Accessibilité pour tous
               </h4>
               <p className="text-gray-600">
-                Nous croyons que chaque jeune mérite d'accéder à des expériences
-                enrichissantes. Notre mission est de rendre les activités
-                culturelles, sportives et de bien-être accessibles au plus grand
-                nombre.
+                Nous croyons que chacun mérite d'accéder à des expériences
+                enrichissantes. Nous voulons améliorer la qualité de vie de nos utilisateurs.
               </p>
             </div>
           </div>
@@ -422,7 +419,7 @@ function Home() {
       <section className="bg-gradient-to-r from-[#F4C2C2] to-[#C8A2C8] rounded-3xl p-12 text-white">
         <div className="max-w-3xl mx-auto text-center">
           <h3 className="text-3xl font-bold mb-4">
-            Rejoignez Velvès aujourd'hui
+            Rejoignez VelZ aujourd'hui
           </h3>
           <p className="text-lg mb-8">
             Inscrivez-vous gratuitement et accédez à des offres exclusives sur
