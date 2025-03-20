@@ -60,7 +60,7 @@ function Home() {
         <div className="relative p-12">
           <div className="max-w-2xl">
             <h1 className="text-4xl font-bold text-white mb-4">
-              🚧 Velz est en cours de développement ! 🚀
+              🚧 Velz la plateforme qui facilite l'accès à une vie plus saine 🌿 est en cours de développement ! 🚀
             </h1>
 
             <h5 className="text-lg text-white/90 mb-4 ">
