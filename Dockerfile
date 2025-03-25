@@ -1,16 +1,32 @@
-FROM node:22-alpine3.21 AS build
-RUN npm install --global pnpm
+#
+# base
+#
+FROM node:22-alpine3.21 AS base
 WORKDIR /opt/app
 
+#
+# setup
+#
+FROM base AS setup
+RUN npm install --global pnpm
 COPY package.json pnpm-lock.yam[l] package-lock.jso[n] .
 RUN pnpm install
-
 COPY . .
+
+#
+# test
+#
+FROM setup AS test
+RUN pnpm lint
+
+#
+# build
+#
+FROM test AS build
 RUN pnpm build
 
 
-FROM nginx:1.27-alpine3.21 AS production
-WORKDIR /opt/app
-#COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /opt/app/dist /opt/app
+FROM base AS production
+ENV PORT=80
+CMD ["node", "server.js"]
+COPY --from=build /opt/app/.next/standalone .

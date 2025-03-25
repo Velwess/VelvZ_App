@@ -24,7 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 
-/.github
-/Dockerfile
-/.deployment
+/.env
+/.env.*
+/.next
+/README.md
 /.dockerignore
+/Dockerfile
