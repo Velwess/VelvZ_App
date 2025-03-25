@@ -6,7 +6,6 @@ import {ShareButton} from '@velz/common/components/ShareButton.tsx';
 import {Clock, MapPin, Star} from 'lucide-react';
 import {useEffect, useState} from "react";
 import {useParams} from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function DealDetailPage() {
@@ -23,7 +22,7 @@ export default function DealDetailPage() {
   return <div className="bg-white rounded-xl shadow-lg overflow-hidden">
     <div className="grid md:grid-cols-2 gap-8">
       <div className="relative">
-        <Image src={deal.image_url} alt={deal.title} className="w-full h-[400px] object-cover"/>
+        <img src={deal.image_url} alt={deal.title} className="w-full h-[400px] object-cover"/>
         <span className="absolute top-4 right-4 bg-[#DA70D6] text-white px-3 py-1 rounded-full font-semibold">
           {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
         </span>

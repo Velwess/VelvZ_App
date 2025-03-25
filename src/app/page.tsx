@@ -21,7 +21,6 @@ import {
   Star,
   Users
 } from "lucide-react";
-import Image from "next/image";
 
 export default function HomePage() {
   const [page, setPage] = useState(0);
@@ -310,9 +309,9 @@ export default function HomePage() {
           },
         ].map((review) => <div key={review.id} className="bg-white rounded-xl p-6 shadow-sm">
           <div className="flex items-center mb-4">
-            <Image alt={review.name}
-                   src={review.avatar}
-                   className="w-12 h-12 rounded-full object-cover mr-4"/>
+            <img alt={review.name}
+                 src={review.avatar}
+                 className="w-12 h-12 rounded-full object-cover mr-4"/>
             <div>
               <h4 className="font-semibold text-gray-800">{review.name}</h4>
               <div className="flex items-center">

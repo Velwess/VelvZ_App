@@ -4,7 +4,6 @@ import {FavoriteButton} from "@velz/common/components/FavoriteButton.tsx";
 import {Deal} from "@velz/common/lib/database.types.ts";
 import {useRouter} from "next/navigation";
 import {Star} from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export function DealComponent({deal}: { deal: Deal }) {
@@ -13,7 +12,7 @@ export function DealComponent({deal}: { deal: Deal }) {
   return <div onClick={() => router.push(`/offres/${deal.id}`)}
               className="bg-white rounded-xl shadow-sm cursor-pointer overflow-hidden hover:shadow-md transition-shadow">
     <div className="relative">
-      <Image src={deal.image_url} alt={deal.title} className="w-full h-48 object-cover"/>
+      <img src={deal.image_url} alt={deal.title} className="w-full h-48 object-cover"/>
       <span className="absolute top-4 right-4 bg-[#DA70D6] text-white px-3 py-1 rounded-full font-semibold">
         {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
       </span>

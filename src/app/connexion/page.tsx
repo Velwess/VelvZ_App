@@ -6,7 +6,6 @@ import React, {useContext, useState} from 'react';
 import {useRouter} from "next/navigation";
 import {ArrowRight} from 'lucide-react';
 import Link from "next/link";
-import Image from "next/image";
 
 export default function ConnexionPage() {
   const router = useRouter();
@@ -92,7 +91,7 @@ export default function ConnexionPage() {
 
       <button type="button"
               className="w-full flex items-center justify-center px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-        <Image src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 mr-2"/>
+        <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 mr-2"/>
         Google
       </button>
 
