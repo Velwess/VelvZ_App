@@ -37,5 +37,5 @@ export const PATCH = compose([
     .setHeader('Authorization', `Bearer ${req.jwt.token}`);
 
   if (error) throw error;
-  return Response.redirect(`${new URL(req.url!).origin}/api/deals/${dealId}/review`, 303);
+  return new Response(null, {status: 303, headers: {Location: `/api/deals/${dealId}/review`}});
 });

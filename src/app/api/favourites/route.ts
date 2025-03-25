@@ -71,5 +71,5 @@ export const PATCH = compose([withJwt, withPayload(is.arrayOf(is.string))], asyn
     .setHeader('Authorization', `Bearer ${req.jwt.token!}`);
 
   if (error) throw error;
-  return Response.redirect(`${new URL(req.url!).origin}/api/favourites`, 303);
+  return new Response(null, {status: 303, headers: {Location: '/api/favourites'}});
 });

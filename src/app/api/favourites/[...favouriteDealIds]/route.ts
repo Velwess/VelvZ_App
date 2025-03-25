@@ -13,5 +13,5 @@ export const DELETE = compose([withJwt, withPath({favouriteDealIds: is.arrayOf(i
     .setHeader('Authorization', `Bearer ${req.jwt.token}`);
 
   if (error) throw error;
-  return Response.redirect(`${new URL(req.url!).origin}/api/favourites`, 303);
+  return new Response(null, {status: 303, headers: {Location: '/api/favourites'}});
 });
