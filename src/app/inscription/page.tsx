@@ -22,7 +22,7 @@ export default function InscriptionPage() {
     <div className="text-center mb-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Créer un compte</h1>
       <p className="text-gray-600">
-        Rejoignez Velvès et profitez d'offres exclusives
+        Rejoignez Velz et profitez d'offres exclusives
       </p>
     </div>
 

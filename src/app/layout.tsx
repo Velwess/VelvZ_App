@@ -138,13 +138,18 @@ export default function RootLayout({children}: { children: ReactNode }) {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/commitment" className="hover:text-[#E6A4B4] transition-colors">
+                      <Link href="/engagement" className="hover:text-[#E6A4B4] transition-colors">
                         Notre engagement
                       </Link>
                     </li>
                     <li>
                       <Link href="/mission" className="hover:text-[#E6A4B4] transition-colors">
                         Notre mission
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/histoire" className="hover:text-[#E6A4B4] transition-colors">
+                        Notre Histoire
                       </Link>
                     </li>
                   </ul>

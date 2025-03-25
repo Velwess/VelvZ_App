@@ -12,8 +12,8 @@ export function ShareButton({ title, url }: ShareButtonProps) {
     e.stopPropagation();
 
     const shareData = {
-      title: `Velvès - ${title}`,
-      text: `Découvrez cette offre exceptionnelle sur Velvès : ${title}`,
+      title: `Velz - ${title}`,
+      text: `Découvrez cette offre exceptionnelle sur Velz : ${title}`,
       url: url || window.location.href
     };
 

@@ -53,7 +53,7 @@ export default function HomePage() {
       <div className="relative p-12">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold text-white mb-4">
-            🚧 Velz est en cours de développement ! 🚀
+            🚧 Velz la plateforme qui facilite l'accès à une vie plus saine 🌿 est en cours de développement ! 🚀
           </h1>
 
           <h5 className="text-lg text-white/90 mb-4 ">
@@ -126,8 +126,7 @@ export default function HomePage() {
                 Pourquoi nous rejoindre ?
               </h3>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Velvès vous offre une expérience unique avec des avantages
-                exclusifs pensés pour vous
+                Avec VelZ, une vie saine au meilleur prix 😊
               </p>
             </div>
 
@@ -142,7 +141,7 @@ export default function HomePage() {
                   Réductions Exclusives
                 </h4>
                 <p className="text-gray-600">
-                  Jusqu'à -50% sur vos marques et activités préférées
+                  Jusqu'à -50% sur vos essentiels et activités préférées
                 </p>
               </div>
 
@@ -192,7 +191,7 @@ export default function HomePage() {
             <div className="text-center mt-12">
               <Link href="/inscription"
                     className="inline-flex items-center bg-gradient-to-r from-[#E6A4B4] to-[#DA70D6] text-white px-8 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105">
-                Découvrir tous les avantages
+                Découvrir nos bons plans
                 <ArrowRight className="ml-2" size={20}/>
               </Link>
             </div>
@@ -208,7 +207,7 @@ export default function HomePage() {
           Notre Engagement
         </h3>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Chez Velvès, nous nous engageons à créer un impact positif pour nos
+          Chez VelZ, nous nous engageons à créer un impact positif pour nos
           utilisateurs et notre communauté
         </p>
       </div>
@@ -222,10 +221,8 @@ export default function HomePage() {
               Accessibilité pour tous
             </h4>
             <p className="text-gray-600">
-              Nous croyons que chaque jeune mérite d'accéder à des expériences
-              enrichissantes. Notre mission est de rendre les activités
-              culturelles, sportives et de bien-être accessibles au plus grand
-              nombre.
+              Nous croyons que chacun mérite d'accéder à des expériences
+              enrichissantes. Nous voulons améliorer la qualité de vie de nos utilisateurs.
             </p>
           </div>
         </div>
@@ -289,7 +286,7 @@ export default function HomePage() {
             name: "Sophie L.",
             date: "Il y a 2 jours",
             rating: 5,
-            text: "J'adore Velvès ! Les offres sont vraiment intéressantes et j'ai pu découvrir plein de nouvelles marques.",
+            text: "J'adore VelZ! Les offres sont vraiment intéressantes et j'ai pu découvrir plein de nouvelles marques.",
             avatar:
               "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200",
           },
@@ -387,7 +384,7 @@ export default function HomePage() {
     <section className="bg-gradient-to-r from-[#F4C2C2] to-[#C8A2C8] rounded-3xl p-12 text-white">
       <div className="max-w-3xl mx-auto text-center">
         <h3 className="text-3xl font-bold mb-4">
-          Rejoignez Velvès aujourd'hui
+          Rejoignez VelZ aujourd'hui
         </h3>
         <p className="text-lg mb-8">
           Inscrivez-vous gratuitement et accédez à des offres exclusives sur
