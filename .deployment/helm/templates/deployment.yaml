@@ -21,6 +21,15 @@ spec:
           value: "80"
         - name: HOST
           value: "0.0.0.0"
+        {{/* Read env vars from .env (dot env) and configure it in-place */}}
+        {{ $file := .Files.Get ".env" | trimSuffix "\\n" }}
+        {{- range $line := splitList "\\n" $file -}}
+        {{- $kv := splitList "=" $line -}}
+        {{- if ne (first $kv) "" }}
+        - name: {{ first $kv }}
+          value: {{ join "=" (slice $kv 1) | quote }}
+        {{- end }}
+        {{- end }}
         image: {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
         ports:
         - name: http
