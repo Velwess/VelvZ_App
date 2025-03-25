@@ -42,7 +42,7 @@ jobs:
         echo "${{ secrets.DOT_ENV }}" | base64 --decode > .env
         pnpm lint
         pnpm build
-        tar -cvzf "velzapp-${{ env.VERSION }}.tar.gz" dist
+        tar -cvzf "velzapp-${{ env.VERSION }}.tar.gz" .next/standalone
 
     - name: Release
       if: ${{ env.VERSION }}
