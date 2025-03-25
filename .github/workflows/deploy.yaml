@@ -47,7 +47,6 @@ jobs:
           REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
 
-          echo "${{ secrets.DOT_ENV }}" | base64 --decode > .env
           docker build --tag ghcr.io/$REPO_LOWER:${{ env.VERSION }} .
           docker push ghcr.io/$REPO_LOWER:${{ env.VERSION }}
           echo "REPO_LOWER=$REPO_LOWER" >> $GITHUB_ENV
@@ -68,6 +67,7 @@ jobs:
           export PATH="$PWD:$PATH"
           chmod a+x kubectl
 
+          echo "${{ secrets.DOT_ENV }}" | base64 --decode > .deployment/helm/.env
           helm upgrade \
             velzapp .deployment/helm --install \
             --set app.image.tag="${{ env.VERSION }}" \
