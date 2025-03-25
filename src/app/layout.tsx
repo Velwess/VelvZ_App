@@ -8,7 +8,6 @@ import {ReactNode, useEffect, useState} from "react";
 import {Session, User} from "@supabase/supabase-js";
 import Link from "next/link";
 import "@velz/index.css";
-import Script from "next/script";
 
 export default function RootLayout({children}: { children: ReactNode }) {
   const router = useRouter();
@@ -158,7 +157,7 @@ export default function RootLayout({children}: { children: ReactNode }) {
                   <h4 className="text-lg font-semibold text-gray-800 mb-4">Aide</h4>
                   <ul className="space-y-2 text-gray-600">
                     <li>
-                      <Link href="/CGU" className="hover:text-[#E6A4B4] transition-colors">
+                      <Link href="/cgu" className="hover:text-[#E6A4B4] transition-colors">
                         Conditions générales d'utilisation{" "}
                       </Link>
                     </li>
@@ -230,7 +229,7 @@ export default function RootLayout({children}: { children: ReactNode }) {
       </SessionContext.Provider>
     </PageSizeContext.Provider>
   </UserContext.Provider>
-  <Script defer data-domain="velzapp.com" src="https://analytics.fabriceyopa.me/js/script.js"/>
+  <script defer data-domain="velzapp.com" src="https://analytics.fabriceyopa.me/js/script.js"/>
   </body>
   </html>;
 }

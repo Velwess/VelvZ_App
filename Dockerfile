@@ -30,3 +30,4 @@ FROM base AS production
 ENV PORT=80
 CMD ["node", "server.js"]
 COPY --from=build /opt/app/.next/standalone .
+COPY --from=build /opt/app/.next/static ./.next/static
