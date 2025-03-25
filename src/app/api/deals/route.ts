@@ -16,8 +16,7 @@ export const GET = compose([withQuery({
     .select('*, reviews(id, rating), categories!inner(slug, name)', {count: 'exact'});
   if (slug) query.eq('categories.slug', slug);
   query
-    // .gte('end_date', new Date().toISOString())
-    .or(`end_date.gte.${new Date().toISOString()},end_date.is.null`)
+    .or(`${sort}.gte.${new Date().toISOString()},${sort}.is.null`)
     .order(sort, {ascending: 'true' === ascending})
     .range(+pageSize * +page, +pageSize * (+page + 1) - 1);
 

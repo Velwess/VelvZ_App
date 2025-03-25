@@ -8,7 +8,7 @@ export const GET = compose([withQuery({page: is.finite, pageSize: is.finite})], 
   const {query: {page, pageSize}} = req;
   const {data: content, count, error} = await supabase.from('deals')
     .select('*, reviews(id, rating), categories(slug, name)', {count: 'exact'})
-    .gte('end_date', new Date().toISOString())
+    .or(`end_date.gte.${new Date().toISOString()},end_date.is.null`)
     .eq('flash', true)
     .order('end_date', {ascending: false})
     .range(+pageSize * +page, +pageSize * (+page + 1) - 1);
