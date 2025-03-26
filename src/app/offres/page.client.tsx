@@ -1,10 +1,11 @@
 'use client';
 import {PagingComponent} from "@velz/common/components/PagingComponent.tsx";
 import {DealComponent} from "@velz/common/components/DealComponent.tsx";
-import {ApiResponse, Deal} from "@velz/common/lib/database.types.ts";
+import {ApiResponse, Category, Deal} from "@velz/common/lib/database.types.ts";
 import {useRouter, useSearchParams} from "next/navigation";
 import {useEffect, useState} from 'react';
 import {Filter} from 'lucide-react';
+import Link from "next/link";
 
 interface Sort {
   field: string;
@@ -19,11 +20,12 @@ const SORTS: Sort[] = [
 ];
 
 export interface OffresClientPageProps {
+  category?: Category;
   ascending?: boolean;
-  category?: string;
   pageSize?: number;
   deals?: Deal[];
   count?: number;
+  slug?: string;
   sort?: string;
   page?: number;
 }
@@ -31,35 +33,51 @@ export interface OffresClientPageProps {
 export default function OffresClientPage(props: OffresClientPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [slug, setSlug] = useState(props.slug!);
   const [sort, setSort] = useState(props.sort!);
   const [page, setPage] = useState(props.page ?? 0);
   const [count, setCount] = useState(props.count ?? 0);
-  const [category, setCategory] = useState(props.category!);
+  const [category, setCategory] = useState(props.category);
   const [ascending, setAscending] = useState(props.ascending!);
   const [pageSize, setPageSize] = useState(props.pageSize ?? 0);
   const [deals, setDeals] = useState<Deal[]>(props.deals ?? []);
 
   useEffect(() => {
+    const slug = searchParams.get('categorie') ?? props.slug!;
+
+    setSlug(slug);
     setAscending('true' === searchParams.get('ordre'));
-    setCategory(searchParams.get('categorie') ?? props.category!);
     setSort((searchParams.get('tri') ?? props.sort) || 'end_date');
+    fetch(`/api/categories/${slug}`, {method: 'GET'})
+      .then(res => res.json() as Promise<ApiResponse<Category>>)
+      .then(({content, status}) => 'SUCCESS' === status && setCategory(content))
   }, [searchParams]);// eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!pageSize) return;
     fetch([`/api/deals?sort=${sort || 'end_date'}&ascending=${ascending}&page=${page}&pageSize=${pageSize}`,
-      category && `slug=${category}`,
+      slug && `slug=${slug}`,
     ].filter(Boolean).join('&'), {method: 'GET'})
       .then(res => res.json() as Promise<ApiResponse<Deal[]>>)
       .then(({content, paging: {count = 0} = {}}) => {
         setDeals(content);
         setCount(count);
       });
-  }, [page, pageSize, sort, ascending, category]);
+  }, [page, pageSize, sort, ascending, slug]);
 
   return <div className="space-y-8">
     <div className="flex items-center justify-between">
-      <h2 className="text-3xl font-bold text-gray-800">Toutes les offres</h2>
+      <h2 className="flex gap-4 text-3xl font-bold text-gray-800 place-items-center">
+        <span>Toutes les offres</span>
+        {category
+          ? <Link key={category.name}
+                  href={`/offres?categorie=${category.slug}`}
+                  className={`flex items-center text-sm space-x-1 p-2 rounded-full transition-all duration-300 transform hover:scale-105 bg-[#F4C2C2] text-white shadow-md`}>
+            <span>{category.icon}</span>
+            <span className="font-medium">{category.name}</span>
+          </Link>
+          : null}
+      </h2>
       <div className="flex items-center space-x-4">
         <Filter className="text-[#E6A4B4]" size={20}/>
         <select
@@ -82,7 +100,7 @@ export default function OffresClientPage(props: OffresClientPageProps) {
   function search(label = 'Trier') {
     const sort = SORTS.find(_ => label === _.label);
     return [
-      category && `categorie=${category}`,
+      slug && `categorie=${slug}`,
       sort?.field && `ordre=${sort.ascending}`,
       sort?.field && `tri=${sort.field}`,
     ].filter(Boolean).join('&');
