@@ -6,6 +6,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {ApiResponse, Category} from "@velz/common/lib/database.types.ts";
 import {ReactNode, useEffect, useState} from "react";
 import {Session, User} from "@supabase/supabase-js";
+import favicon from '@velz/favicon.png';
 import Link from "next/link";
 import "@velz/index.css";
 
@@ -40,6 +41,7 @@ export default function RootLayout({children}: { children: ReactNode }) {
 
   return <html lang="fr">
   <head>
+    <link rel="icon" type="image/png" href={favicon.src}/>
     <title>Velz - Offres exclusives pour les jeunes</title>
   </head>
   <body className="min-h-screen bg-[#FAF3E0]">
