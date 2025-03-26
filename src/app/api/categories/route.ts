@@ -6,8 +6,8 @@ export async function GET(req: NextApiRequest) {
     .from('categories')
     .select()
     .order('name', {ascending: true});
-  if (error) throw error;
 
+  if (error) throw error;
   return Response.json({
     meta: {links: {self: req.url}},
     status: 'SUCCESS',

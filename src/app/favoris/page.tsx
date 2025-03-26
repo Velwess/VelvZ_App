@@ -1,48 +1,27 @@
-'use client';
-import {PagingComponent} from "@velz/common/components/PagingComponent.tsx";
-import {DealComponent} from "@velz/common/components/DealComponent.tsx";
-import {FavouriteDealIdsContext} from "@velz/common/domain/context.ts";
+import FavorisClientPage from "@velz/app/favoris/page.client.tsx";
+import {cookies} from "next/headers";
+import {is} from "@velz/common/lib/middleware/with-payload.ts";
 import {ApiResponse, Deal} from "@velz/common/lib/database.types.ts";
-import {useContext, useEffect, useState} from "react";
-import Link from "next/link";
+import {Params} from "next/dist/server/request/params";
 
-export default function FavorisPage() {
-  const [page, setPage] = useState(0);
-  const [count, setCount] = useState(0);
-  const [pageSize, setPageSize] = useState(0);
-  const [deals, setDeals] = useState<Deal[]>([]);
-  const {favouriteDealIds} = useContext(FavouriteDealIdsContext);
+export default async function FavorisPage(props: { searchParams: Promise<Params> }) {
+  const {PORT = 3000} = process.env;
+  let favouriteDealIds: string[] = [];
+  const searchParams = await props.searchParams;
+  const page = is.finite(searchParams.page) ? searchParams.page : 0;
+  const pageSize = is.finite(searchParams.taille) ? searchParams.taille : 20;
 
-  useEffect(() => {
-    if (!(pageSize && favouriteDealIds?.length)) return;
-    fetch(`/api/deals/${favouriteDealIds.join('/')}?page=${page}&pageSize=${pageSize}`, {method: 'GET'})
-      .then(res => res.json() as Promise<ApiResponse<Deal[]>>)
-      .then(({content, paging: {count = 0} = {}}) => {
-        setDeals(content);
-        setCount(count);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, pageSize, favouriteDealIds?.sort().join()]);
+  try {
+    const parsed = JSON.parse((await cookies()).get('favouriteDealIds')?.value ?? '[]');
+    if (is(parsed, is.arrayOf(is.string))) favouriteDealIds = parsed as string[];
+  } catch (_: any) {// eslint-disable-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+  }
 
-  if (!favouriteDealIds?.length) return <div className="text-center py-16">
-    <h2 className="text-3xl font-bold text-gray-800 mb-4">Mes Favoris</h2>
+  const {content: favouriteDeals = [], paging: {count = 0} = {}} = await fetch(
+    `http://0.0.0.0:${PORT}/api/deals/${favouriteDealIds?.sort().join('/')}?page=${page}&pageSize=${pageSize}`, {
+      method: 'GET',
+    })
+    .then(res => res.json() as Promise<ApiResponse<Deal[]>>);
 
-    <div className="max-w-md mx-auto bg-white rounded-xl shadow-sm p-8">
-      <p className="text-gray-600 mb-4">Vous n'avez pas encore de favoris.</p>
-      <Link href="/offres"
-            className="inline-block bg-[#DA70D6] hover:bg-[#DA70D6]/90 text-white px-6 py-2 rounded-full font-semibold transition-colors">
-        Découvrir les offres
-      </Link>
-    </div>
-  </div>;
-
-  return <div className="space-y-8">
-    <h2 className="text-3xl font-bold text-gray-800">Mes Favoris</h2>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {deals.map((deal) => <DealComponent deal={deal} key={deal.id}/>)}
-    </div>
-
-    <PagingComponent {...{count, setPage, setPageSize}} />
-  </div>;
+  return <FavorisClientPage {...{favouriteDeals, pageSize, page, count}} />;
 }

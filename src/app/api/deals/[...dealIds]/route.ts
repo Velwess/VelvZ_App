@@ -8,19 +8,22 @@ export const GET = compose([
   withPath({dealIds: is.arrayOf(is.string)}),
   withQuery({page: is.finite, pageSize: is.finite})], async req => {
   const {path: {dealIds}, query: {page, pageSize}} = req;
-  const {data: content, error, count} = await supabase
+  // eslint-disable-next-line prefer-const
+  let {data: content = [], count = 0, error} = await supabase
     .from('deals')
     .select('*, reviews(id, rating), favorites(id), categories(slug, name)', {count: 'exact'})
     .in('id', dealIds)
     .order('end_date', {ascending: false})
     .range(+pageSize * +page, +pageSize * (+page + 1) - 1);
 
-  if (error) throw error;
+  if ('PGRST103' === error?.code) content = [];
+  else if (error) throw error;
+
   // TODO: Insert pager metadata
   return Response.json({
     paging: Number.isFinite(count) ? {count} : undefined,
-    content: content ? content : undefined,
     meta: {links: {self: req.url}},
     status: 'SUCCESS',
+    content: content,
   }, {status: 200});
 });

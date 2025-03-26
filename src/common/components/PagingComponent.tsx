@@ -12,14 +12,14 @@ export interface PagingComponentProps {
 }
 
 export function PagingComponent({count, setPage, setPageSize}: PagingComponentProps) {
-  const page = +(useSearchParams().get('page') ?? 0) || 0;
-  const {pageSize} = useContext(PageSizeContext);
+  const pageSizeContext = useContext(PageSizeContext);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    setPageSize(pageSize);
-    setPage(page);
+    setPageSize(+(searchParams.get('taille') ?? 0) || pageSizeContext.pageSize);
+    setPage(+(searchParams.get('page') ?? 0) || 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, page, pageSize]);
+  }, [count, searchParams]);
 
   return <></>;
 }

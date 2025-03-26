@@ -1,4 +1,3 @@
-import {ApiResponse, Deal} from "@velz/common/lib/database.types.ts";
 import {withQuery} from "@velz/common/lib/middleware/with-query.ts";
 import {compose} from "@velz/common/lib/middleware/compose.ts";
 import {is} from "@velz/common/lib/middleware/with-payload.ts";
@@ -20,14 +19,16 @@ export const GET = compose([withQuery({
     .order(sort, {ascending: 'true' === ascending})
     .range(+pageSize * +page, +pageSize * (+page + 1) - 1);
 
-  const {data: content, count, error} = await query;
+  // eslint-disable-next-line prefer-const
+  let {data: content = [], count = 0, error} = await query;
 
-  if (error) throw error;
+  if ('PGRST103' === error?.code) content = [];
+  else if (error) throw error;
   // TODO: Fill in pager links
   return Response.json({
     meta: {links: {self: req.url!}},
     paging: {count: count!},
-    content: content,
     status: 'SUCCESS',
-  } satisfies ApiResponse<Deal[]>, {status: 200});
+    content,
+  }, {status: 200});
 });
