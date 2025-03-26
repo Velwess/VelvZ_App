@@ -5,8 +5,8 @@ import {ApiResponse, Deal} from "@velz/common/lib/database.types.ts";
 import {Params} from "next/dist/server/request/params";
 
 export default async function FavorisPage(props: { searchParams: Promise<Params> }) {
-  const {PORT = 3000} = process.env;
   let favouriteDealIds: string[] = [];
+  const {PORT = 3000, HOSTNAME} = process.env;
   const searchParams = await props.searchParams;
   const page = is.finite(searchParams.page) ? searchParams.page : 0;
   const pageSize = is.finite(searchParams.taille) ? searchParams.taille : 20;
@@ -18,7 +18,7 @@ export default async function FavorisPage(props: { searchParams: Promise<Params>
   }
 
   const {content: favouriteDeals = [], paging: {count = 0} = {}} = await fetch(
-    `http://0.0.0.0:${PORT}/api/deals/${favouriteDealIds?.sort().join('/')}?page=${page}&pageSize=${pageSize}`, {
+    `http://${HOSTNAME ?? '0.0.0.0'}:${PORT}/api/deals/${favouriteDealIds?.sort().join('/')}?page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
     })
     .then(res => res.json() as Promise<ApiResponse<Deal[]>>);

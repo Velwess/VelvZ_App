@@ -5,9 +5,9 @@ import {cookies} from "next/headers";
 import {is} from "@velz/common/lib/middleware/with-payload.ts";
 
 export default async function RootLayout({children}: { children: ReactNode }) {
-  const {PORT = 3000} = process.env;
   let favouriteDealIds: string[] = [];
-  const {content: categories = []} = await fetch(`http://0.0.0.0:${PORT}/api/categories`)
+  const {PORT = 3000, HOSTNAME} = process.env;
+  const {content: categories = []} = await fetch(`http://${HOSTNAME ?? '0.0.0.0'}:${PORT}/api/categories`)
     .then(_ => _.json() as Promise<ApiResponse<Category[]>>);
 
   try {
