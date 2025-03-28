@@ -30,9 +30,9 @@ export function DealComponent({deal}: { deal: Deal }) {
       </div>
       <h4 className="text-xl font-semibold text-gray-800 mb-2">{deal.title}</h4>
       <div className="flex items-center justify-between">
-        {deal.end_date && <span className="text-sm text-gray-500">
-          Expire le {new Date(deal.end_date).toLocaleDateString()}
-        </span> || null}
+        <span className="text-sm text-gray-500">
+          {deal.end_date && `Expire le ${new Date(deal.end_date).toLocaleDateString()}` || ''}
+        </span>
         <FavoriteButton id={deal.id}/>
       </div>
     </div>
