@@ -65,10 +65,12 @@ export default function DealDetailClientPage(props: DealDetailClientPage) {
 
         <div className="mb-6">
           <div className="flex items-baseline space-x-3 mb-2">
-            <span className="text-3xl font-bold text-[#DA70D6]">{deal.final_price}€</span>
+            <span className="text-3xl font-bold text-[#DA70D6]">
+              {0 === deal.final_price ? 'Gratuit' : `${deal.final_price}€`}
+            </span>
             { null === deal.original_price
-              ? <span className="text-xl text-gray-400 line-through">{deal.original_price}€</span>
-              : null}
+              ? null
+              : <span className="text-md text-gray-400">{deal.original_price}€</span>}
           </div>
           {deal.end_date ? <div className="flex items-center text-gray-600">
             <Clock size={20} className="mr-2"/>
