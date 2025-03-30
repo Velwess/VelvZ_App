@@ -9,6 +9,7 @@ import {Session, User} from "@supabase/supabase-js";
 import favicon from '@velz/favicon.png';
 import Link from "next/link";
 import "@velz/index.css";
+import {z} from "zod";
 
 export interface RootClientLayoutProps {
   favouriteDealIds?: string[];
@@ -21,6 +22,8 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [pageSize, setPageSize] = useState(20);
+  const [newsLetterEmail, setNewsLetterEmail] = useState('');
+  const [invalidNewsLetterEmail, setInvalidNewsLetterEmail] = useState(true);
   const [categories, setCategories] = useState<Category[]>(props.categories ?? []);
   const [user, setUser] = useState<User | null | undefined>(
     JSON.parse('object' === typeof localStorage
@@ -47,6 +50,8 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
     document.cookie = `favouriteDealIds=${encodeURIComponent(content)}; path=/; SameSite=Strict`;
     localStorage?.setItem('favouriteDealIds', content);
   }, [favouriteDealIds]);
+  useEffect(() =>
+    setInvalidNewsLetterEmail(!!z.string().email().safeParse(newsLetterEmail).error), [newsLetterEmail]);
 
   return <html lang="fr">
   <head>
@@ -227,10 +232,28 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
                   </p>
                   <div className="flex">
                     <input type="email"
+                           value={newsLetterEmail}
                            placeholder="Votre email"
+                           onChange={e => setNewsLetterEmail(e.target.value)}
                            className="flex-1 px-4 py-2 rounded-l-full border border-gray-200 focus:outline-none focus:border-[#E6A4B4]"/>
                     <button
-                      className="px-6 py-2 bg-[#E6A4B4] text-white rounded-r-full hover:bg-[#DA70D6] transition-colors">
+                      disabled={invalidNewsLetterEmail}
+                      onClick={e => {
+                        setInvalidNewsLetterEmail(true);
+                        fetch(`/api/newsletter/subscribers`, {
+                          method: 'PATCH',
+                          body: JSON.stringify({email: newsLetterEmail}),
+                        }).then(res => res.json())
+                          .then(({error}) => {
+                            if (error) return;
+                            setNewsLetterEmail('');
+                            const target = e.target as HTMLButtonElement;
+                            target.innerText = 'Voila qui est fait!';
+                            setTimeout(() => target.innerText = 'OK', 1_500)
+                          })
+                      }}
+                      className="px-6 py-2 bg-[#E6A4B4] text-white rounded-r-full hover:bg-[#DA70D6]
+                                 transition-colors disabled:bg-gray-600 whitespace-nowrap">
                       OK
                     </button>
                   </div>
