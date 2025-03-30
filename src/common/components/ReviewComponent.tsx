@@ -44,7 +44,7 @@ export function ReviewComponent({dealId, onUpdate}: { dealId: string, onUpdate?:
           : 'Publier'
         : session?.access_token
           ? 'Je laisse une revue'
-          : '(Je me connecte, puis laisse une revue)'}
+          : 'Je laisse une revue'}
     </button>
 
     {visibleForm && <>
