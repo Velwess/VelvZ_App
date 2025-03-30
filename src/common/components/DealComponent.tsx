@@ -21,7 +21,7 @@ export function DealComponent({deal}: { deal: Deal }) {
         {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
       </span>
     </div>
-    <div className="p-6 grow flex flex-col border">
+    <div className="p-6 grow flex flex-col">
       <div className="flex items-center justify-between mb-2">
         <Link href={`/offres?categorie=${deal.categories?.slug}`}
               className="text-sm text-[#E6A4B4]">{deal.categories?.name}</Link>
