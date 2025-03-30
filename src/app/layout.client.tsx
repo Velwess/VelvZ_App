@@ -1,7 +1,7 @@
 "use client";
 
 import {FavouriteDealIdsContext, PageSizeContext, SessionContext, UserContext} from "@velz/common/domain/context.ts";
-import {Facebook, Heart, Instagram, Mail, Phone, Power, Search, Sparkles, Twitter} from "lucide-react";
+import {Facebook, Heart, Instagram, Mail, Phone, Power, Sparkles, Twitter, UserRoundPlus} from "lucide-react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {ApiResponse, Category} from "@velz/common/lib/database.types.ts";
 import {ReactNode, useEffect, useState} from "react";
@@ -76,18 +76,18 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
                               ? 'bg-[#F4C2C2] text-white shadow-md'
                               : 'text-gray-600 hover:bg-[#F4C2C2]/10'}`}>
                         <span>{categorie.icon}</span>
-                        <span className="font-medium">{categorie.name}</span>
+                        <span className="font-medium whitespace-nowrap">{categorie.name}</span>
                       </Link>
                     ))}
                   </nav>
                 </div>
                 <div className="flex items-center space-x-6">
-                  <div className="relative">
-                    <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"/>
-                    <input type="text"
-                           placeholder="Rechercher une offre..."
-                           className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-[#E6A4B4] w-64 font-light"/>
-                  </div>
+                  {/*<div className="relative">*/}
+                  {/*  <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"/>*/}
+                  {/*  <input type="text"*/}
+                  {/*         placeholder="Rechercher une offre..."*/}
+                  {/*         className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-[#E6A4B4] w-64 font-light"/>*/}
+                  {/*</div>*/}
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
                       <Link href="/favoris"
@@ -102,23 +102,25 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
                       {user
                         ? <button type="button"
                                   onClick={() => {
-                                    // TODO: Supabase sign-out
                                     router.push("/");
                                     setSession(null);
                                     setUser(null);
                                   }}
-                                  className="relative p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300">
-                          <Power size={24} className="text-[#E6A4B4]"/>
+                                  className="relative p-2 rounded-full hover:bg-[#F4C2C2]/10 transition-colors duration-300 text-white bg-[#E6A4B4] hover:bg-[#DA70D6]">
+                          <Power size={24}/>
                         </button>
                         : <>
                           <Link href="/inscription"
-                                className="px-4 py-2 text-[#E6A4B4] hover:text-[#DA70D6] font-medium transition-colors">
-                            Je m'inscris
+                                className="px-4 py-2 text-[#E6A4B4] hover:text-[#DA70D6] font-medium transition-colors whitespace-nowrap">
+                            {/*Je m'inscris*/}
+                            <UserRoundPlus size={24}/>
                           </Link>
                           <span className="text-gray-300">|</span>
                           <Link href="/connexion"
-                                className="px-4 py-2 bg-[#E6A4B4] text-white rounded-full hover:bg-[#DA70D6] transition-colors font-medium">
-                            Je me connecte
+                                className={['p-2 rounded-full transition-colors font-medium whitespace-nowrap',
+                                  session?.access_token || 'text-[#E6A4B4]'].filter(Boolean).join(' ')}>
+                            {/*Je me connecte*/}
+                            <Power size={24}/>
                           </Link>
                         </>}
                     </div>
