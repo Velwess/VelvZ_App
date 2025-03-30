@@ -98,14 +98,14 @@ export default function DealDetailClientPage(props: DealDetailClientPage) {
             <p className="text-gray-600">{deal.description ?? '-'}</p>
           </div>
 
-          <div>
+          {deal.conditions?.length && <div>
             <h3 className="text-lg font-semibold mb-2">Conditions</h3>
             <ul className="list-disc list-inside text-gray-600 space-y-1">
               {deal.conditions?.map((condition, index) => (
                 <li key={index}>{condition}</li>
               ))}
             </ul>
-          </div>
+          </div> || null}
         </div>
       </div>
     </div>
