@@ -67,10 +67,10 @@ export default function DealDetailClientPage(props: DealDetailClientPage) {
             <span className="text-3xl font-bold text-[#DA70D6]">{deal.final_price}€</span>
             <span className="text-xl text-gray-400 line-through">{deal.original_price}€</span>
           </div>
-          <div className="flex items-center text-gray-600">
+          {deal.end_date ? <div className="flex items-center text-gray-600">
             <Clock size={20} className="mr-2"/>
-            <span>Valable {deal.end_date ? new Date(deal.end_date).toLocaleDateString() : '(non specifie)'}</span>
-          </div>
+            <span>Valable: {new Date(deal.end_date).toLocaleDateString()}</span>
+          </div> : null}
         </div>
 
         <a href={deal.deal_url} target="_blank">
