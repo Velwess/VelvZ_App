@@ -49,6 +49,7 @@ export interface Deal {
   deal_url: string;
   end_date: string;
   title: string;
+  opinion: string|null;
   categories?: Category;
   partners?: Partner;
   reviews?: Review[];

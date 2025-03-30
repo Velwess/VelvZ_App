@@ -10,7 +10,11 @@ export function DealComponent({deal}: { deal: Deal }) {
   const router = useRouter();
 
   return <div onClick={() => router.push(`/offres/${deal.id}`)}
-              className="bg-white rounded-xl shadow-sm cursor-pointer overflow-hidden hover:shadow-md transition-shadow">
+              className="relative bg-white rounded-xl shadow-sm cursor-pointer overflow-hidden hover:shadow-md transition-shadow">
+    {deal.opinion && <div
+      className="z-[1] px-5 py-1 flex gap-1.5 text-xs bottom-full absolute text-white drop-shadow-lg place-items-center bg-[#E6A4B4] -rotate-45 origin-bottom-right -translate-x-[calc(29.28%)]">
+      On like &#x2764;
+    </div> || null}
     <div className="relative">
       <img src={deal.image_url} alt={deal.title} className="w-full h-48 object-cover"/>
       <span className="absolute top-4 right-4 bg-[#DA70D6] text-white px-3 py-1 rounded-full font-semibold">

@@ -3,7 +3,7 @@ import {ReviewComponent} from "@velz/common/components/ReviewComponent.tsx";
 import {FavoriteButton} from '@velz/common/components/FavoriteButton.tsx';
 import {ApiResponse, Deal} from "@velz/common/lib/database.types.ts";
 import {ShareButton} from '@velz/common/components/ShareButton.tsx';
-import {Clock, MapPin, Star} from 'lucide-react';
+import {Clock, HeartHandshake, MapPin, Star} from 'lucide-react';
 import {useEffect, useState} from "react";
 import {useParams} from "next/navigation";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import Link from "next/link";
 export interface DealDetailClientPage {
   deal?: Deal;
 }
+
 export default function DealDetailClientPage(props: DealDetailClientPage) {
   const {dealId} = useParams();
   const [deal, setDeal] = useState(props.deal);
@@ -70,6 +71,13 @@ export default function DealDetailClientPage(props: DealDetailClientPage) {
           {deal.end_date ? <div className="flex items-center text-gray-600">
             <Clock size={20} className="mr-2"/>
             <span>Valable: {new Date(deal.end_date).toLocaleDateString()}</span>
+          </div> : null}
+          {deal.opinion ? <div className="p-2 shadow rounded-sm">
+            <p className="flex mb-3 gap-2 items-center">
+              <HeartHandshake size={18}/>
+              <strong className="uppercase">Notre Petit Mot</strong>
+            </p>
+            <p className="text-gray-600">{deal.opinion}</p>
           </div> : null}
         </div>
 
