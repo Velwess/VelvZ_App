@@ -11,20 +11,23 @@ export default function HistoirePage() {
                         shadow-lg rounded-md overflow-hidden"/>
         Notre fondatrice Velwess a eu un burn out suite à differents facteurs profesionnels et personnels.
         Cette periode s'est suivie de plusieurs mois difficiles de depression.
-        
-        Elle a su rebondir grâce au à des activités telle que le Flying Yoga, manger de maniere equilibrée,
+      </p>
+      <p className="text-lg leading-relaxed text-gray-700 overflow-hidden">
+         Elle a su rebondir grâce au à des activités telle que le Flying Yoga, manger de maniere equilibrée,
         prendre soin de ma santé physique avec des bitamines de la skin care hair care etc...
-        
-        Au fur à mesure des mois elle a refleuri de cette episode. Ne voulant pas garder pour elle ce qui lui a permis
+      </p>
+      <p className="text-lg leading-relaxed text-gray-700 overflow-hidden">
+         Au fur à mesure des mois elle a refleuri de cette episode. Ne voulant pas garder pour elle ce qui lui a permis
         d'aller mieux dans une société ou sa santé mentale des jeunes s'affaiblit et la multiplication d'enseigne de
         fast food bon marché se multiplie.
-        
+      </p>
+      <p className="text-lg leading-relaxed text-gray-700 overflow-hidden">
         VelZ est né afin de promouvoir un nouveau modele de vie ou on ne vit pas pour travailler quitte à alterer sa
         sante on travail pour bien vivre.
-        
+      </p>
+      <p className="text-lg leading-relaxed text-gray-700 overflow-hidden">
         La raison d'etre est trouvée neanmoins entre l'inflation et le prix de bien vivre ce n'est pas accessible à
-        tous. Notre but est
-        de convaincre le maximum d'enseigne à nous suivre vers un healthy lifestyle pour les budgets serrés.
+        tous. Notre but est de convaincre le maximum d'enseigne à nous suivre vers un healthy lifestyle pour les budgets serrés.
       </p>
     </div>
   </div>;
