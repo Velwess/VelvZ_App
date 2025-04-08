@@ -9,8 +9,7 @@ export default function HistoirePage() {
         <div>
           <img
             src={velwess.src}
-            className="max-h-auto sm:mr-4 sm:mt-4 sm:float-left md:float-left sm:max-h-[200] md:max-h-[200] -translate-y-2
-                        shadow-lg rounded-md overflow-hidden"
+            className="max-h-auto sm:mr-4 sm:mt-4 sm:float-left md:float-left sm:max-h-[200px] md:max-h-[200px] -translate-y-2 shadow-lg rounded-md overflow-hidden"
           />
         </div>
         <div className="space-y-6" style={{ marginTop: "0" }}>
