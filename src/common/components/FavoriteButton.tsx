@@ -26,7 +26,7 @@ export function FavoriteButton({id, className = ''}: FavoriteButtonProps) {
     aria-label={favouriteDealIds?.includes(id) ? "Retirer des favoris" : "Ajouter aux favoris"}>
     <Heart
       size={24}
-      className={`${favouriteDealIds?.includes(id) ? 'fill-[#E6A4B4]' : ''} text-[#E6A4B4]`}
+      className={`${favouriteDealIds?.includes(id) ? 'fill-secondary' : ''} text-secondary`}
     />
   </button>;
 

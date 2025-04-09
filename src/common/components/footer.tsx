@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Mail, Phone} from "lucide-react";
 import Link from "next/link";
 import {z} from "zod";
+import {Header} from "@velz/common/components/header.tsx";
 
 export function Footer({className}: { className?: string }) {
   const [newsLetterEmail, setNewsLetterEmail] = useState('');
@@ -12,7 +13,7 @@ export function Footer({className}: { className?: string }) {
 
   return <div className={`py-8 grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 ${className}`}>
     <div>
-      <h4 className="mb-2 text-lg font-bold">Nous</h4>
+      <Header level={3} title="Velz"/>
       <ul className="space-y-2">
         <li>
           <Link href="/engagement" className="transition-colors focus:text-secondary hover:text-secondary">
@@ -37,7 +38,7 @@ export function Footer({className}: { className?: string }) {
       </ul>
     </div>
     <div>
-      <h4 className="mb-2 text-lg font-bold">Contact</h4>
+      <Header level={3} title="Contact"/>
       <ul className="space-y-2">
         <li className="flex items-center">
           <Phone size={18} className="mr-2 text-secondary"/>
@@ -58,25 +59,25 @@ export function Footer({className}: { className?: string }) {
       {/*  <a target="_blank"*/}
       {/*     href="https://instagram.com"*/}
       {/*     rel="noopener noreferrer"*/}
-      {/*     className="text-[#E6A4B4] hover:text-[#DA70D6] transition-colors">*/}
+      {/*     className="text-secondary hover:text-primary transition-colors">*/}
       {/*    <Instagram size={24}/>*/}
       {/*  </a>*/}
       {/*  <a target="_blank"*/}
       {/*     href="https://facebook.com"*/}
       {/*     rel="noopener noreferrer"*/}
-      {/*     className="text-[#E6A4B4] hover:text-[#DA70D6] transition-colors">*/}
+      {/*     className="text-secondary hover:text-primary transition-colors">*/}
       {/*    <Facebook size={24}/>*/}
       {/*  </a>*/}
       {/*  <a target="_blank"*/}
       {/*     href="https://twitter.com"*/}
       {/*     rel="noopener noreferrer"*/}
-      {/*     className="text-[#E6A4B4] hover:text-[#DA70D6] transition-colors">*/}
+      {/*     className="text-secondary hover:text-primary transition-colors">*/}
       {/*    <Twitter size={24}/>*/}
       {/*  </a>*/}
       {/*</div>*/}
     </div>
     <div>
-      <h4 className="mb-2 text-lg font-bold">Aide</h4>
+      <Header level={3} title="Aide"/>
       <ul className="space-y-2">
         <li>
           <Link href="/cgu" className="transition-colors focus:text-secondary hover:text-secondary">
@@ -86,10 +87,8 @@ export function Footer({className}: { className?: string }) {
       </ul>
     </div>
     <div>
-      <h4 className="mb-2 text-lg font-bold">Newsletter</h4>
-      <p className="mb-2 italic text-sm">
-        Restez informés des meilleures offres
-      </p>
+      <Header level={3} title="Newsletter" subtitle="Restez informés des meilleures offres"/>
+
       <div className="flex">
         <input type="email"
                value={newsLetterEmail}

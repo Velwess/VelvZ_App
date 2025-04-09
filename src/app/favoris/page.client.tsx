@@ -38,7 +38,7 @@ export default function FavorisClientPage(props: FavorisClientPageProps) {
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-sm p-8">
       <p className="text-gray-600 mb-4">Vous n'avez pas encore de favoris.</p>
       <Link href="/offres"
-            className="inline-block bg-[#DA70D6] hover:bg-[#DA70D6]/90 text-white px-6 py-2 rounded-full font-semibold transition-colors">
+            className="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full font-semibold transition-colors">
         Découvrir les offres
       </Link>
     </div>

@@ -33,7 +33,7 @@ export function ShareButton({ title, url }: ShareButtonProps) {
   return (
     <button
       onClick={handleShare}
-      className="text-[#E6A4B4] hover:text-[#DA70D6] transition-colors duration-300"
+      className="text-secondary hover:text-primary transition-colors duration-300"
       aria-label="Partager"
     >
       <Share2 size={24} />

@@ -2,6 +2,7 @@
 import {FavouriteDealIdsContext, SessionContext, UserContext} from "@velz/common/domain/context.ts";
 import type {AuthError, Session, User, WeakPassword} from '@supabase/supabase-js';
 import {ApiResponse, ERRORS} from "@velz/common/lib/database.types.ts";
+import {Header} from "@velz/common/components/header.tsx";
 import React, {useContext, useState} from 'react';
 import {useRouter} from "next/navigation";
 import {ArrowRight} from 'lucide-react';
@@ -16,14 +17,9 @@ export default function ConnexionPage() {
   const [form, setForm] = useState<{ email?: string, password?: string }>({});
   const {favouriteDealIds, $set: setFavouriteDealIdsContext} = useContext(FavouriteDealIdsContext);
 
-  return <div className="max-w-md mx-auto">
-    <div className="text-center mb-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">Connexion</h1>
-      <p className="text-gray-600">
-        Connectez-vous pour accéder à vos offres exclusives
-      </p>
-    </div>
-
+  return <section className="mx-auto max-w-2xl">
+    <Header title="Connexion"
+            subtitle="Connectez-vous pour accéder à vos offres exclusives"/>
 
     <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-8 space-y-6">
       <div>
@@ -35,7 +31,7 @@ export default function ConnexionPage() {
                value={form.email ??= ''}
                placeholder="votre@email.com"
                onChange={e => setForm({...form, email: e.target.value})}
-               className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"/>
+               className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"/>
       </div>
 
       <div>
@@ -43,7 +39,7 @@ export default function ConnexionPage() {
           <label htmlFor="password" className="block text-sm font-medium text-gray-700">
             Mot de passe
           </label>
-          <a href="#" className="text-sm text-[#E6A4B4] hover:text-[#DA70D6] transition-colors">
+          <a href="#" className="text-sm text-secondary hover:text-primary transition-colors">
             Mot de passe oublié ?
           </a>
         </div>
@@ -52,14 +48,14 @@ export default function ConnexionPage() {
                placeholder="••••••••"
                value={form.password ??= ''}
                onChange={e => setForm({...form, password: e.target.value})}
-               className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"/>
+               className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"/>
       </div>
 
       {/*<div className="flex items-center">*/}
       {/*  <input*/}
       {/*    type="checkbox"*/}
       {/*    id="remember"*/}
-      {/*    className="h-4 w-4 text-[#E6A4B4] border-gray-300 rounded focus:ring-[#E6A4B4]"*/}
+      {/*    className="h-4 w-4 text-secondary border-gray-300 rounded focus:ring-secondary"*/}
       {/*  />*/}
       {/*  <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">*/}
       {/*    Se souvenir de moi*/}
@@ -71,7 +67,7 @@ export default function ConnexionPage() {
       </p>}
       <button type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-[#E6A4B4] to-[#DA70D6] text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center">
+              className="w-full bg-gradient-to-r from-secondary to-primary text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center">
         {isSubmitting
           ? <span className="animate-pulse">Connexion en cours...</span>
           : <>
@@ -97,12 +93,12 @@ export default function ConnexionPage() {
 
       <p className="text-center text-sm text-gray-600 mt-6">
         Pas encore de compte ?{' '}
-        <Link href="/inscription" className="text-[#E6A4B4] hover:text-[#DA70D6] font-medium transition-colors">
+        <Link href="/inscription" className="text-secondary hover:text-primary font-medium transition-colors">
           Créer un compte
         </Link>
       </p>
     </form>
-  </div>;
+  </section>;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

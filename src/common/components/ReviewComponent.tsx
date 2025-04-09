@@ -24,7 +24,7 @@ export function ReviewComponent({dealId, onUpdate}: { dealId: string, onUpdate?:
 
   return <div className="text-right my-4 pl-4">
     <button
-      className="px-4 py-2 text-white rounded-full transition-colors font-medium disabled:bg-gray-300 bg-[#E6A4B4] hover:bg-[#DA70D6]"
+      className="px-4 py-2 text-white rounded-full transition-colors font-medium disabled:bg-gray-300 bg-secondary hover:bg-primary"
       onClick={visibleForm ? () => {
         if (!session?.access_token) return;
         setPending(true);

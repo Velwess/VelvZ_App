@@ -3,6 +3,7 @@ import {ERRORS} from "@velz/common/lib/database.types.ts";
 import {usePathname, useRouter} from "next/navigation";
 import React, {useEffect, useState} from 'react';
 import {ArrowRight} from 'lucide-react';
+import {Header} from "@velz/common/components/header.tsx";
 
 export default function InscriptionPage() {
   const router = useRouter();
@@ -17,13 +18,8 @@ export default function InscriptionPage() {
       setPasswordError(ERRORS['different_password']!);
   }, [form.password, form.confirmPassword]);
 
-  return <div className="max-w-md mx-auto">
-    <div className="text-center mb-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">Créer un compte</h1>
-      <p className="text-gray-600">
-        Rejoignez Velz et profitez d'offres exclusives
-      </p>
-    </div>
+  return <section className="mx-auto max-w-2xl">
+    <Header title="Créer un compte" subtitle="Rejoignez Velz et profitez d'offres exclusives"/>
 
     <form onSubmit={handleSubmit}
           className="bg-white rounded-xl shadow-sm p-8 space-y-6">
@@ -37,7 +33,7 @@ export default function InscriptionPage() {
       {/*    placeholder="Votre nom"*/}
       {/*    value={form.name ??= ''}*/}
       {/*    onChange={e => setForm({...form, name: e.target.value})}*/}
-      {/*    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"*/}
+      {/*    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"*/}
       {/*  />*/}
       {/*</div>*/}
 
@@ -50,7 +46,7 @@ export default function InscriptionPage() {
                value={form.email ??= ''}
                placeholder="votre@email.com"
                onChange={e => updateForm('email', e.target.value)}
-               className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"/>
+               className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"/>
       </div>
 
       <div>
@@ -63,7 +59,7 @@ export default function InscriptionPage() {
                placeholder="••••••••"
                value={form.password ??= ''}
                onChange={e => updateForm('password', e.target.value)}
-               className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"/>
+               className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"/>
       </div>
 
       <div>
@@ -77,7 +73,7 @@ export default function InscriptionPage() {
                value={form.confirmPassword ??= ''}
                onChange={e => updateForm('confirmPassword', e.target.value)}
                className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 transition-all ${
-                 passwordError ? 'border-red-300 focus:ring-red-200' : 'border-gray-200 focus:ring-[#E6A4B4]'
+                 passwordError ? 'border-red-300 focus:ring-red-200' : 'border-gray-200 focus:ring-secondary'
                }`}/>
         {touched.password && touched.confirmPassword && passwordError && (
           <p className="my-4 mb-6 p-4 bg-red-100 font-bold text-red-700 rounded-lg text-center">{passwordError}</p>
@@ -86,7 +82,7 @@ export default function InscriptionPage() {
 
       <button type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-[#E6A4B4] to-[#DA70D6] text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center">
+              className="w-full bg-gradient-to-r from-secondary to-primary text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center">
         {isSubmitting
           ? <span className="animate-pulse">Création en cours...</span>
           : <>
@@ -110,7 +106,7 @@ export default function InscriptionPage() {
         Google
       </button>
     </form>
-  </div>;
+  </section>;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

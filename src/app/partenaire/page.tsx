@@ -2,6 +2,7 @@
 
 import {ArrowRight, Building2} from 'lucide-react';
 import React, {useState} from 'react';
+import {Header} from "@velz/common/components/header.tsx";
 
 export default function PartenairePage() {
   const [formData, setFormData] = useState({
@@ -38,16 +39,12 @@ export default function PartenairePage() {
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
-  return <div className="max-w-2xl mx-auto">
-    <div className="text-center mb-8">
-      <div className="w-16 h-16 bg-[#F4C2C2] rounded-full flex items-center justify-center mx-auto mb-4">
-        <Building2 size={32} className="text-[#E6A4B4]"/>
+  return <section className="mx-auto max-w-2xl">
+    <Header centered title="Devenir Partenaire" subtitle="Rejoignez notre réseau de partenaires et développez votre activité">
+      <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <Building2 size={32} className="text-secondary"/>
       </div>
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">Devenir Partenaire</h1>
-      <p className="text-gray-600">
-        Rejoignez notre réseau de partenaires et développez votre activité
-      </p>
-    </div>
+    </Header>
 
     {showSuccess && (
       <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-lg text-center">
@@ -68,7 +65,7 @@ export default function PartenairePage() {
             required
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
+            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
             placeholder="Votre nom"
           />
         </div>
@@ -84,7 +81,7 @@ export default function PartenairePage() {
             required
             value={formData.company}
             onChange={handleChange}
-            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
+            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
             placeholder="Nom de votre entreprise"
           />
         </div>
@@ -101,7 +98,7 @@ export default function PartenairePage() {
           required
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
+          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
           placeholder="votre@entreprise.com"
         />
       </div>
@@ -116,7 +113,7 @@ export default function PartenairePage() {
           required
           value={formData.partnershipType}
           onChange={handleChange}
-          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
+          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
         >
           <option value="">Sélectionnez un type</option>
           <option value="retail">Commerce de détail</option>
@@ -136,7 +133,7 @@ export default function PartenairePage() {
           value={formData.message}
           onChange={handleChange}
           rows={4}
-          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E6A4B4] transition-all"
+          className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
           placeholder="Décrivez votre projet de partenariat..."
         />
       </div>
@@ -144,7 +141,7 @@ export default function PartenairePage() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-gradient-to-r from-[#E6A4B4] to-[#DA70D6] text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+        className="w-full bg-gradient-to-r from-secondary to-primary text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
       >
         {isSubmitting ? (
           <span className="animate-pulse">Envoi en cours...</span>
@@ -156,5 +153,5 @@ export default function PartenairePage() {
         )}
       </button>
     </form>
-  </div>;
+  </section>;
 }

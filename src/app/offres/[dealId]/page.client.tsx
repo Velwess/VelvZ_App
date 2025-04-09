@@ -30,7 +30,7 @@ export default function DealDetailClientPage(props: DealDetailClientPage) {
             alt={deal.title}
             className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
           />
-          <span className="absolute top-4 right-4 bg-[#DA70D6] text-white px-3 py-1 rounded-full font-semibold">
+          <span className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full font-semibold">
             {deal.discount_percentage
               ? `-${deal.discount_percentage}%`
               : "Bon Plan"}
@@ -43,7 +43,7 @@ export default function DealDetailClientPage(props: DealDetailClientPage) {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
             <Link
               href={`/offres?categorie=${deal.categories?.slug}`}
-              className="text-sm text-[#E6A4B4] font-medium break-words"
+              className="text-sm text-secondary font-medium break-words"
             >
               {deal.categories?.name}
             </Link>
@@ -89,7 +89,7 @@ export default function DealDetailClientPage(props: DealDetailClientPage) {
 
           <div className="mb-6">
             <div className="flex items-baseline space-x-3 mb-2 flex-wrap">
-              <span className="text-3xl font-bold text-[#DA70D6] break-words">
+              <span className="text-3xl font-bold text-primary break-words">
                 {0 === deal.final_price ? "Gratuit" : `${deal.final_price}€`}
               </span>
               {null === deal.original_price ? null : (
@@ -118,7 +118,7 @@ export default function DealDetailClientPage(props: DealDetailClientPage) {
           </div>
 
           <a href={deal.deal_url} target="_blank" className="block w-full">
-            <button className="w-full bg-[#DA70D6] hover:bg-[#DA70D6]/90 text-white py-3 rounded-full font-semibold transition-colors">
+            <button className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-full font-semibold transition-colors">
               Profiter de l'offre
             </button>
           </a>

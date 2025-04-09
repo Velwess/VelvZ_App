@@ -12,19 +12,19 @@ export function DealComponent({deal}: { deal: Deal }) {
   return <div onClick={() => router.push(`/offres/${deal.id}`)}
               className="flex flex-col relative bg-white rounded-xl shadow-sm cursor-pointer overflow-hidden hover:shadow-md transition-shadow">
     {deal.opinion && <div
-      className="z-[1] px-5 py-1 flex gap-1.5 text-xs bottom-full absolute text-white drop-shadow-lg place-items-center bg-[#E6A4B4] -rotate-45 origin-bottom-right -translate-x-[calc(29.28%)]">
+      className="z-[1] px-5 py-1 flex gap-1.5 text-xs bottom-full absolute text-white drop-shadow-lg place-items-center bg-secondary -rotate-45 origin-bottom-right -translate-x-[calc(29.28%)]">
       On like &#x2764;
     </div> || null}
     <div className="relative">
       <img src={deal.image_url} alt={deal.title} className="w-full h-48 object-cover"/>
-      <span className="absolute top-4 right-4 bg-[#DA70D6] text-white px-3 py-1 rounded-full font-semibold">
+      <span className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full font-semibold">
         {deal.discount_percentage ? `-${deal.discount_percentage}%` : 'Bon Plan'}
       </span>
     </div>
     <div className="p-6 grow flex flex-col">
       <div className="flex items-center justify-between mb-2">
         <Link href={`/offres?categorie=${deal.categories?.slug}`}
-              className="text-sm text-[#E6A4B4]">{deal.categories?.name}</Link>
+              className="text-sm text-secondary">{deal.categories?.name}</Link>
         <div className="flex items-center">
           {(rating => [...Array(5)].map((_, i) => 1 + i).map(i => <Star
             className={['text-[#FFD700] mr-1', i <= rating ? 'fill-[#FFD700]' : ''].join(' ')}
