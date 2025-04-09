@@ -55,14 +55,12 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
     <PageSizeContext.Provider value={{pageSize, $set: setPageSize}}>
       <SessionContext.Provider value={{session, $set: setSession}}>
         <FavouriteDealIdsContext.Provider value={{favouriteDealIds, $set: setFavouriteDealIds}}>
-          {/* Header */}
           <header className="z-10 px-8 top-0 fixed left-0 w-full bg-white/70 backdrop-blur">
             <Navbar className="mx-auto sm:max-w-2xl lg:max-w-3xl xl:max-w-7xl"
                     {...{user, session, setUser, setSession, categories, favouriteDealIds}}/>
           </header>
 
-          {/* Main Content */}
-          <main className="container mx-auto grow px-4 pt-24 pb-16">
+          <main className="py-20 mx-auto sm:max-w-2xl lg:max-w-3xl xl:max-w-7xl">
             {props.children}
           </main>
 
