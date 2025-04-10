@@ -17,6 +17,7 @@ export interface RootClientLayoutProps {
 
 export default function RootClientLayout(props: RootClientLayoutProps) {
   const [pageSize, setPageSize] = useState(20);
+  const [scrolling, setScrolling] = useState(false);
   const [categories, setCategories] = useState<Category[]>(props.categories ?? []);
   const [user, setUser] = useState<User | null | undefined>(
     JSON.parse('object' === typeof localStorage
@@ -30,6 +31,25 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
     props.favouriteDealIds ??
     JSON.parse('object' === typeof localStorage
       ? localStorage.getItem('favouriteDealIds') ?? 'null' : 'null')?.sort() as string[]);
+
+  useEffect(() => {
+    let onScrollEndHandler: (this: HTMLBodyElement, ev: Event) => void;
+    let onScrollHandler: (this: HTMLBodyElement, ev: Event) => void;
+    let timeoutHandler: NodeJS.Timeout;
+    if ('undefined' === typeof window) return;
+
+    addEventListener('scroll', onScrollHandler = () => setScrolling(true));
+    addEventListener('scrollend', onScrollEndHandler = () => {
+      clearTimeout(timeoutHandler);
+      timeoutHandler = setTimeout(() => setScrolling(false), 300);
+    });
+
+    return () => {
+      clearTimeout(timeoutHandler);
+      removeEventListener('scroll', onScrollHandler);
+      removeEventListener('scrollend', onScrollEndHandler);
+    };
+  }, []);
 
   useEffect(() => void fetch('/api/categories')
     .then(_ => _.json() as Promise<ApiResponse<Category[]>>)
@@ -50,7 +70,15 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
     <link rel="icon" type="image/png" href={favicon.src}/>
     <title>Velz - Offres exclusives pour les jeunes</title>
   </head>
-  <body className="flex h-dvh flex-col bg-yellowish text-gray-600">
+  <body className={[
+    '[&::-webkit-scrollbar]:w-[4px]',
+    '[&::-webkit-scrollbar-thumb]:rounded-full',
+    '[&::-webkit-scrollbar-thumb]:transition-all',
+    '[&::-webkit-scrollbar-track]:bg-transparent',
+    'hover:[&::-webkit-scrollbar-thumb]:bg-secondary',
+    'flex h-dvh flex-col bg-yellowish text-gray-600',
+    scrolling ? '[&::-webkit-scrollbar-thumb]:bg-primary' : '[&::-webkit-scrollbar-thumb]:bg-primary/50',
+  ].filter(Boolean).join(' ')}>
   <UserContext.Provider value={{user, $set: setUser}}>
     <PageSizeContext.Provider value={{pageSize, $set: setPageSize}}>
       <SessionContext.Provider value={{session, $set: setSession}}>
