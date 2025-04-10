@@ -6,10 +6,10 @@ import {Navbar} from "@velz/common/components/nav-bar.tsx";
 import {Footer} from "@velz/common/components/footer.tsx";
 import {ReactNode, useEffect, useState} from "react";
 import {Session, User} from "@supabase/supabase-js";
+import {usePathname} from "next/navigation";
 import favicon from "@velz/assets/logo.png";
 import {motion} from "framer-motion";
 import "@velz/index.css";
-import {usePathname, useSearchParams} from "next/navigation";
 
 export interface RootClientLayoutProps {
   favouriteDealIds?: string[];
@@ -19,7 +19,6 @@ export interface RootClientLayoutProps {
 
 export default function RootClientLayout(props: RootClientLayoutProps) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [pageSize, setPageSize] = useState(20);
   const [scrolling, setScrolling] = useState(false);
   const [categories, setCategories] = useState<Category[]>(props.categories ?? []);
@@ -93,11 +92,11 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
           </header>
 
           <main className="grow px-2 py-32 mx-auto sm:max-w-2xl lg:max-w-3xl xl:max-w-7xl">
-            <motion.section transition={{ duration: 0.3, ease: "easeInOut" }}
-                            key={`${pathname}?${searchParams.toString()}`}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}>
+            <motion.section transition={{duration: 0.3, ease: "easeInOut"}}
+                            initial={{opacity: 0, y: 20}}
+                            animate={{opacity: 1, y: 0}}
+                            exit={{opacity: 0, y: -20}}
+                            key={pathname}>
               {props.children}
             </motion.section>
           </main>
