@@ -60,7 +60,7 @@ export default function RootClientLayout(props: RootClientLayoutProps) {
                     {...{user, session, setUser, setSession, categories, favouriteDealIds}}/>
           </header>
 
-          <main className="grow py-32 mx-auto sm:max-w-2xl lg:max-w-3xl xl:max-w-7xl">
+          <main className="grow px-2 py-32 mx-auto sm:max-w-2xl lg:max-w-3xl xl:max-w-7xl">
             {props.children}
           </main>
 
